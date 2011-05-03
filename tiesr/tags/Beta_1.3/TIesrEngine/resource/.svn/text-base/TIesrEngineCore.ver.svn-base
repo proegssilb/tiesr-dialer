@@ -1,0 +1,175 @@
+TXNprivate_1.1 {
+        global:
+                # search.o
+                _Z10EM_alpha_tPsS_ttP7HmmTypeS_P10gmhmm_type;
+                _Z7EM_betaPsS_tP7HmmTypeS_P10gmhmm_type;
+                _Z10EM_get_lldsPKsS0_sP11_SEARCH_MEMP10gmhmm_type;
+                _Z15back_trace_beamssPtS_S_S_S_P10gmhmm_type;
+                _Z17gauss_obs_score_fPsiP10gmhmm_type;
+                _Z14search_a_framePsstP10gmhmm_type;
+                _Z16set_search_spacePsttttP10gmhmm_type;
+
+                # mfcc_f.o
+                _Z8circ_idxs;
+                _Z18compute_regressionssPssPKsPA16_s;
+                _Z13cos_transformPsS_PKsssPS1_;
+                _Z11dim_p2_initsP10gmhmm_type;
+                _Z3fftPsS_;
+                _Z21inverse_cos_transformPsS_PKsssPS1_;
+                _Z13mfcc_a_windowPsS_S_ssPK15mel_filter_typePPKsS_S4_P8NormTypeS_S_;
+
+                # dist.o
+                _Z11log_polyfitls;
+                _Z11pow_polyfits;
+                _Z8hlr_expnss;
+                _Z10hlr_expn_qssPs;
+                _Z21hlr_gauss_obs_score_fPKsi7ObsTypePssPK10gmhmm_type;
+                _Z11hlr_log_onet;
+                _Z10hlr_logsumss;
+                _Z15gauss_det_constPstPKss;
+                _Z5q15_xtl;
+                _Z8div32_32ll;
+                _Z5q14_xsl;
+                _Z7fx_sqrtl;
+
+
+                # noise_sub.o
+                _Z16ss_mfcc_a_windowPsS_S_ssPK15mel_filter_typePPKsS_S4_P8NormTypeS_P7NssType;
+                _Z14init_spect_subPs;
+                _Z10noise_subsPssS_S_tS_;
+                _Z7ss_openP7NssTypeP10gmhmm_type;
+                _Z8ss_closeP10gmhmm_type;
+                _Z8ss_resetP7NssType;
+                _Z14ss_set_defaultP7NssType;
+                _Z11ss_set_parmtsP7NssType;
+
+                # pack.o
+                _Z10nbr_codingssi;
+                _Z14vector_packingPKsPtS0_s;
+                _Z16vector_unpackingPKtPsPKss;
+
+                # uttdet.o
+                _Z14SpeechDetectedP10gmhmm_type;
+                _Z11SpeechEndedP10gmhmm_type;
+                _Z14compute_uttdetPsssS_P10gmhmm_typeP8NormType;
+                _Z11init_uttdetP10gmhmm_type;
+                _Z18set_default_uttdetP10gmhmm_type;
+                _Z10set_uttdetsP10gmhmm_type;
+                _Z12update_levelssss;
+
+                # load.o
+                _Z9mem_allocPsPttjtPc;
+                _Z11free_modelsP10gmhmm_type;
+                _Z11free_scalesP10gmhmm_type;
+                _Z11load_modelsPcP10gmhmm_typecS_S_;
+                _Z11load_n_mfccPc;
+                _Z11load_scalesPcP10gmhmm_type;
+                _Z13load_mean_vecPcP10gmhmm_types;
+                _Z15load_model_filePcPt;
+
+                # pmc_f.o
+                _Z25log_spectral_compensationPsS_S_S_PKsS1_sS_s;
+                _Z3pmcPsS_S_S_sssPKsS_PS1_S_s;
+
+                # volume.o
+                _Z16SetTIesrVolRangeP10gmhmm_typett;
+                _Z15set_volume_flagP10gmhmm_type;
+                _Z16GetTIesrVolRangeP10gmhmm_typePtS1_;
+
+                # gmhmm_type_common.o
+                _Z14GetAnswerCountPK10gmhmm_types;
+                _Z13GetAnswerWordtPK10gmhmm_types;
+                _Z14GetAnswerIndexPK10gmhmm_types;
+                _Z12GetNumNbestsPK10gmhmm_type;
+                _Z13GetTIesrNBestP10gmhmm_typePs;
+                _Z13SetTIesrNBestP10gmhmm_types;
+                _Z18GetConfidenceScorePK10gmhmm_type;
+                _Z13GetCycleCountPK10gmhmm_type;
+                _Z13GetFrameCountPK10gmhmm_type;
+                _Z13GetTIesrPrunePK10gmhmm_typePs;
+                _Z13SetTIesrPruneP10gmhmm_types;
+                _Z11GetTIesrSADPK10gmhmm_typePsS2_S2_S2_S2_;
+                _Z11SetTIesrSADP10gmhmm_typesssss;
+                _Z20GetTIesrTransiWeightPK10gmhmm_typePs;
+                _Z20SetTIesrTransiWeightP10gmhmm_types;
+                _Z13GetTotalScorePK10gmhmm_type;
+                _Z15GetVolumeStatusPK10gmhmm_type;
+                _Z16GetTIesrGaussSelPK10gmhmm_typePtS2_;
+                _Z16SetTIesrGaussSelP10gmhmm_typett;
+                _Z16OpenSearchEngineP10gmhmm_type;
+                _Z11GetTIesrJACPK10gmhmm_typePsS2_S2_S2_S2_S2_S2_;
+                _Z11SetTIesrJACP10gmhmm_typesssssss;
+                _Z11GetTIesrSBCPK10gmhmm_typePs;
+                _Z11SetTIesrSBCP10gmhmm_types;
+                _Z11GetTIesrORMPsS_S_S_S_PtS_S_P10gmhmm_type;
+                _Z11SetTIesrORMssssstssP10gmhmm_type;
+                _Z10GetTIesrSSPtPsP10gmhmm_type;
+                _Z10SetTIesrSStsP10gmhmm_type;
+                _Z10GetTIesrCMPsS_P10gmhmm_type;
+                _Z10SetTIesrCMssP10gmhmm_type;
+                _Z18GetRealTimeGuardThPsP10gmhmm_type;
+                _Z18SetRealTimeGuardThsP10gmhmm_type;
+                _Z13GetRealTGuardPsP10gmhmm_type;
+                _Z13SetRealTGuardsP10gmhmm_type;
+
+                # obsprob.o
+                _Z22observation_likelihoodtsP7HmmTypePssP10gmhmm_type;
+
+                # sbc.o
+                _Z8sbc_saveP13FeaHLRAccTypeP8_IO_FILE;
+                _Z16sbc_rst_seg_statP13FeaHLRAccType;
+                _Z8sbc_freeP13FeaHLRAccType;
+                _Z16sbc_rst_SBC_statP13FeaHLRAccType;
+                _Z17sbc_rtn_hmm2phoneP13FeaHLRAccType;
+                _Z14sbc_re_enhanceP13FeaHLRAccTypePsS1_tsS1_;
+                _Z16sbc_acc_cep_biasttPsS_PKstS_P13FeaHLRAccType;
+                _Z22sbc_set_default_paramsP10gmhmm_type;
+                _Z8sbc_openP13FeaHLRAccType;
+                _Z8sbc_loadP13FeaHLRAccTypeP8_IO_FILE;
+                _Z11sbc_enhanceP13FeaHLRAccTypePstsS1_;
+                _Z13sbc_init_treeP13FeaHLRAccTypePKcS2_stts;
+                _Z21sbc_enhance_all_transP13FeaHLRAccTypePss;
+                _Z26sbc_observation_likelihoodtstP7HmmTypePssP10gmhmm_type;
+                _Z11sbc_acc_SBCtttP13FeaHLRAccTypet;
+                _Z14sbc_update_SBCP10gmhmm_type;
+                _Z18sbc_load_hmm2phonePKctP13FeaHLRAccTypes;
+                _Z21sbc_phone2terminalidxtP13FeaHLRAccType;
+                _Z10sbc_backupP13FeaHLRAccType;
+                _Z11sbc_restoreP13FeaHLRAccType;
+
+                # rapidsearch.o
+                _Z7rj_openttP10gmhmm_type;
+                _Z16rj_clear_obs_scrP10gmhmm_typePs;
+                _Z8rj_closeP10gmhmm_type;
+                _Z13rj_compensateP10gmhmm_type;
+                _Z21rj_noise_compensationP10gmhmm_type;
+                _Z7rj_initP10gmhmm_type;
+                _Z20rj_gauss_obs_score_fPsiP10gmhmm_typePlS_;
+                _Z15rj_update_noiseP10gmhmm_typePss;
+                _Z12rj_set_paramttP10gmhmm_type;
+                _Z10rj_set_ORMssssstssP10gmhmm_type;
+                _Z11rj_vad_procP10gmhmm_typePs;
+                _Z7rj_saveP10gmhmm_typeP8_IO_FILE;
+                _Z7rj_loadP10gmhmm_typeP8_IO_FILE;
+                _Z8mlp_openP10gmhmm_type;
+                _Z8mlp_initP10gmhmm_type;
+                _Z13mlp_thresholdP10gmhmm_typels;
+                _Z10mlp_updateP10gmhmm_typesl;
+                _Z9mlp_closeP10gmhmm_type;
+                _Z7cm_openP8ConfTypeP10gmhmm_type;
+                _Z7cm_initP10gmhmm_type;
+                _Z12cm_set_paramssP10gmhmm_type;
+                _Z9cm_freezeP8ConfType;
+                _Z8cm_closeP10gmhmm_type;
+                _Z7cm_loadP8_IO_FILEP10gmhmm_type;
+                _Z7cm_saveP8_IO_FILEP10gmhmm_type;
+                _Z10cm_antiscrP8ConfTypet;
+                _Z29cm_acc_seg_ratio_to_antimodelP10gmhmm_typetssl;
+                _Z16cm_update_statusP10gmhmm_type;
+                _Z13cm_backup_adpP10gmhmm_type;
+                _Z14cm_restore_adpP10gmhmm_type;
+                _Z8cm_scoreP10gmhmm_type;
+
+        local:
+                * ;
+};

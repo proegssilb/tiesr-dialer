@@ -1,0 +1,33 @@
+DP "" 2 :f :m
+
+TI T_sil {sil*.transP}
+TI T_no {no:*.transP}
+TI T_okay {okay:*.transP}
+TI T_yes {yes:*.transP}
+
+TI var_no_s2 { no:*.state[2].mix[1].cov }
+TI var_no_s3 { no:*.state[3].mix[1].cov }
+TI var_no_s4 { no:*.state[4].mix[1].cov }
+TI var_no_s5 { no:*.state[5].mix[1].cov }
+TI var_no_s6 { no:*.state[6].mix[1].cov }
+TI var_no_s7 { no:*.state[7].mix[1].cov }
+
+TI var_okay_s2  { okay:*.state[2].mix[1].cov }
+TI var_okay_s3  { okay:*.state[3].mix[1].cov }
+TI var_okay_s4  { okay:*.state[4].mix[1].cov }
+TI var_okay_s5  { okay:*.state[5].mix[1].cov }
+TI var_okay_s6  { okay:*.state[6].mix[1].cov }
+TI var_okay_s7  { okay:*.state[7].mix[1].cov }
+TI var_okay_s8  { okay:*.state[8].mix[1].cov }
+TI var_okay_s9  { okay:*.state[9].mix[1].cov }
+TI var_okay_s10 { okay:*.state[10].mix[1].cov }
+
+TI var_yes_s2  { yes:*.state[2].mix[1].cov }
+TI var_yes_s3  { yes:*.state[3].mix[1].cov }
+TI var_yes_s4  { yes:*.state[4].mix[1].cov }
+TI var_yes_s5  { yes:*.state[5].mix[1].cov }
+TI var_yes_s6  { yes:*.state[6].mix[1].cov }
+TI var_yes_s7  { yes:*.state[7].mix[1].cov }
+TI var_yes_s8  { yes:*.state[8].mix[1].cov }
+TI var_yes_s9  { yes:*.state[9].mix[1].cov }
+TI var_yes_s10 { yes:*.state[10].mix[1].cov }

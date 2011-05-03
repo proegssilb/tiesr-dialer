@@ -1,0 +1,23 @@
+TXN_1.1 {  
+	global:
+               # TIesrSI.o
+               TIesrSI_close;
+               TIesrSI_confidence;
+               TIesrSI_create;
+               TIesrSI_destroy;
+               TIesrSI_frmcount;
+               TIesrSI_getparams;
+               TIesrSI_nbcount;
+               TIesrSI_open;
+               TIesrSI_score;
+               TIesrSI_setparams;
+               TIesrSI_start;
+               TIesrSI_status;
+               TIesrSI_stop;
+               TIesrSI_volume;
+               TIesrSI_wdcount;
+               TIesrSI_word;
+   
+        local: 
+                * ;
+};

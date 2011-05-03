@@ -1,0 +1,131 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesr_Tools
+END
+tiesr_model_convert.pl
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesr_Tools/tiesr_model_convert.pl
+END
+htk_ttp_parse.pl
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesr_Tools/htk_ttp_parse.pl
+END
+TIesrModel.pm
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesr_Tools/TIesrModel.pm
+END
+htk_ttp_map.pl
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesr_Tools/htk_ttp_map.pl
+END
+htk_model_compare.pl
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesr_Tools/htk_model_compare.pl
+END
+train_trees.pl
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesr_Tools/train_trees.pl
+END
+HTKdata.pm
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesr_Tools/HTKdata.pm
+END
+ttp_dict_tree_data.pl
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesr_Tools/ttp_dict_tree_data.pl
+END
+cluster_models.pl
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesr_Tools/cluster_models.pl
+END
+sample_to_htk.pl
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesr_Tools/sample_to_htk.pl
+END
+htk_dict_to_mlf.pl
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesr_Tools/htk_dict_to_mlf.pl
+END
+HTKtrees.pm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesr_Tools/HTKtrees.pm
+END
+tiesr_net_convert.pl
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesr_Tools/tiesr_net_convert.pl
+END
+htk_mmf_to_tiesr.pl
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesr_Tools/htk_mmf_to_tiesr.pl
+END
+HTKtmf.pm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesr_Tools/HTKtmf.pm
+END
+TIesrNet.pm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesr_Tools/TIesrNet.pm
+END
+htk_trees_to_tiesr.pl
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesr_Tools/htk_trees_to_tiesr.pl
+END
+odtcompress.pl
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesr_Tools/odtcompress.pl
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesr_Tools/Makefile
+END
+tiesr_jac_convert.pl
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesr_Tools/tiesr_jac_convert.pl
+END
+htk_letter_mmf.pl
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesr_Tools/htk_letter_mmf.pl
+END

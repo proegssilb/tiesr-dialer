@@ -1,0 +1,15 @@
+TXN_1.1 {  
+   global:
+      # TIesrDict.o
+      __10CTIesrDict; 
+      _._10CTIesrDict;
+      LoadDictionary__10CTIesrDictPCcN21;
+      GetPhoneCount__10CTIesrDict;
+      GetPhoneName__10CTIesrDictUiPc;
+      GetNumberEntries__10CTIesrDictPCcPUi;
+      GetPronEntry__10CTIesrDictPCcUiPcT3;
+      GetNextEntry__10CTIesrDictPcT1;
+      GetPron__10CTIesrDictPCcPcT2;
+   local: 
+      * ;
+};

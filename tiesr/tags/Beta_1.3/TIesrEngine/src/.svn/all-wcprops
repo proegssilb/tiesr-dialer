@@ -1,0 +1,347 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src
+END
+gmhmm_si_api.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/gmhmm_si_api.h
+END
+jac_one.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/jac_one.cpp
+END
+siproc.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/siproc.cpp
+END
+confidence_user.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/confidence_user.h
+END
+mfcc_f_def_struct_user.h
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/mfcc_f_def_struct_user.h
+END
+dist.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/dist.cpp
+END
+jac-estm.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/jac-estm.cpp
+END
+siinit.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/siinit.h
+END
+search.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/search.cpp
+END
+obsprob.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/obsprob.cpp
+END
+dist_user.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/dist_user.h
+END
+jac-estm_user.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/jac-estm_user.h
+END
+search_user.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/search_user.h
+END
+tiesrcommonmacros.h
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/tiesrcommonmacros.h
+END
+uttdet.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/uttdet.cpp
+END
+gmhmm_type.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/gmhmm_type.h
+END
+uttdet_user.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/uttdet_user.h
+END
+sbc.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/sbc.h
+END
+gmhmm_type_common.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/gmhmm_type_common.cpp
+END
+pack_user.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/pack_user.h
+END
+mfcc_f.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/mfcc_f.h
+END
+rapidsearch.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/rapidsearch.cpp
+END
+pmc_f_user.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/pmc_f_user.h
+END
+status.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/status.h
+END
+rapidsearch_user.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/rapidsearch_user.h
+END
+pmc_f.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/pmc_f.h
+END
+noise_sub_user.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/noise_sub_user.h
+END
+noise_sub.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/noise_sub.h
+END
+engine_sireco_init.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/engine_sireco_init.cpp
+END
+siinit.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/siinit.cpp
+END
+winlen.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/winlen.h
+END
+jac_one_user.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/jac_one_user.h
+END
+confidence.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/confidence.h
+END
+jac_one.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/jac_one.h
+END
+sbc.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/sbc.cpp
+END
+volume.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/volume.cpp
+END
+jac-estm.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/jac-estm.h
+END
+obsprob_user.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/obsprob_user.h
+END
+gmhmm.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/gmhmm.h
+END
+sbc_user.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/sbc_user.h
+END
+volume_user.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/volume_user.h
+END
+mfcc_f.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/mfcc_f.cpp
+END
+tiesr_engine_api_sireco.h
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/tiesr_engine_api_sireco.h
+END
+pack.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/pack.cpp
+END
+sbc_struct_user.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/sbc_struct_user.h
+END
+uttdet.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/uttdet.h
+END
+load.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/load.cpp
+END
+mfcc_f_user.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/mfcc_f_user.h
+END
+tiesr_config.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/tiesr_config.h
+END
+gmhmm_type_common_user.h
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/gmhmm_type_common_user.h
+END
+load_user.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/load_user.h
+END
+liveproc.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/liveproc.cpp
+END
+pmc_f.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/pmc_f.cpp
+END
+filename.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/filename.h
+END
+noise_sub.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/noise_sub.cpp
+END
+rapidsearch.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/rapidsearch.h
+END
+hlr_status.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/tiesr/!svn/ver/8/tags/Beta_1.3/TIesrEngine/src/hlr_status.h
+END

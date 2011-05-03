@@ -1,0 +1,155 @@
+TR 1
+
+QS  "L_Boundary:f"	{ sp-*:f+* }
+QS  "R_Boundary:f"	{ *:f+sp }
+
+QS  "L_Voiced:f"        { eh-*:f+*, ey-*:f+*, n-*:f+*, ow-*:f+*, y-*:f+* }
+QS  "R_Voiced:f"        { *:f+eh, *:f+ey, *:f+n, *:f+ow, *:f+y }
+
+QS  "L_Vowel:f"         { eh-*:f+*, ey-*:f+*, ow-*:f+* }
+QS  "R_Vowel:f"         { *:f+eh, *:f+ey, *:f+ow }
+
+QS  "L_Vglide:f"        { eh-*:f+*, ey-*:f+*, ow-*:f+*, y-*:f+* }
+QS  "R_Vglide:f"        { *:f+eh, *:f+ey, *:f+ow, *:f+y }
+
+QS  "L_Glide:f"         { ey-*:f+*, ow-*:f+*, y-*:f+* }
+QS  "R_Glide:f"         { *:f+ey, *:f+ow, *:f+y }
+
+QS  "L_EVowel:f"        { eh-*:f+*, ey-*:f+* }
+QS  "R_EVowel:f"        { *:f+eh, *:f+ey }
+
+QS  "L_Low:f"           { ow-*:f+*, n-*:f+* }
+QS  "R_Low:f"           { *:f+ow, *:f+n }
+
+QS  "R_eh:f"		{ *:f+eh }
+QS  "L_eh:f"		{ eh-*:f+* }
+
+QS  "R_ey:f"		{ *:f+ey }
+QS  "L_ey:f"		{ ey-*:f+* }
+
+QS  "R_k:f"		{ *:f+k }
+QS  "L_k:f"		{ k-*:f+* }
+
+QS  "R_n:f"		{ *:f+n }
+QS  "L_n:f"		{ n-*:f+* }
+
+QS  "R_ow:f"		{ *:f+ow }
+QS  "L_ow:f"		{ ow-*:f+* }
+
+QS  "R_s:f"		{ *:f+s }
+QS  "L_s:f"		{ s-*:f+* }
+
+QS  "R_y:f"		{ *:f+y }
+QS  "L_y:f"		{ y-*:f+* }
+
+
+
+QS  "L_Boundary:m"	{ sp-*:m+* }
+QS  "R_Boundary:m"	{ *:m+sp }
+
+QS  "L_Voiced:m"        { eh-*:m+*, ey-*:m+*, n-*:m+*, ow-*:m+*, y-*:m+* }
+QS  "R_Voiced:m"        { *:m+eh, *:m+ey, *:m+n, *:m+ow, *:m+y }
+
+QS  "L_Vowel:m"         { eh-*:m+*, ey-*:m+*, ow-*:m+* }
+QS  "R_Vowel:m"         { *:m+eh, *:m+ey, *:m+ow }
+
+QS  "L_Vglide:m"        { eh-*:m+*, ey-*:m+*, ow-*:m+*, y-*:m+* }
+QS  "R_Vglide:m"        { *:m+eh, *:m+ey, *:m+ow, *:m+y }
+
+QS  "L_Glide:m"         { ey-*:m+*, ow-*:m+*, y-*:m+* }
+QS  "R_Glide:m"         { *:m+ey, *:m+ow, *:m+y }
+
+QS  "L_EVowel:m"        { eh-*:m+*, ey-*:m+* }
+QS  "R_EVowel:m"        { *:m+eh, *:m+ey }
+
+QS  "L_Low:m"           { ow-*:m+*, n-*:m+* }
+QS  "R_Low:m"           { *:m+ow, *:m+n }
+
+QS  "R_eh:m"		{ *:m+eh }
+QS  "L_eh:m"		{ eh-*:m+* }
+
+QS  "R_ey:m"		{ *:m+ey }
+QS  "L_ey:m"		{ ey-*:m+* }
+
+QS  "R_k:m"		{ *:m+k }
+QS  "L_k:m"		{ k-*:m+* }
+
+QS  "R_n:m"		{ *:m+n }
+QS  "L_n:m"		{ n-*:m+* }
+
+QS  "R_ow:m"		{ *:m+ow }
+QS  "L_ow:m"		{ ow-*:m+* }
+
+QS  "R_s:m"		{ *:m+s }
+QS  "L_s:m"		{ s-*:m+* }
+
+QS  "R_y:m"		{ *:m+y }
+QS  "L_y:m"		{ y-*:m+* }
+
+
+TR 2
+
+RO 2.0 Data/HMM9/hmm9.stats
+
+TR 2
+
+
+TB 50.0 eh:f_s2_  { *-eh:f+*.state[2] }
+TB 50.0 eh:f_s3_  { *-eh:f+*.state[3] }
+TB 50.0 eh:f_s4_  { *-eh:f+*.state[4] }
+
+TB 50.0 ey:f_s2_  { *-ey:f+*.state[2] }
+TB 50.0 ey:f_s3_  { *-ey:f+*.state[3] }
+TB 50.0 ey:f_s4_  { *-ey:f+*.state[4] }
+
+TB 50.0 k:f_s2_  { *-k:f+*.state[2] }
+TB 50.0 k:f_s3_  { *-k:f+*.state[3] }
+TB 50.0 k:f_s4_  { *-k:f+*.state[4] }
+
+TB 50.0 n:f_s2_  { *-n:f+*.state[2] }
+TB 50.0 n:f_s3_  { *-n:f+*.state[3] }
+TB 50.0 n:f_s4_  { *-n:f+*.state[4] }
+
+TB 50.0 ow:f_s2_  { *-ow:f+*.state[2] }
+TB 50.0 ow:f_s3_  { *-ow:f+*.state[3] }
+TB 50.0 ow:f_s4_  { *-ow:f+*.state[4] }
+
+TB 50.0 s:f_s2_  { *-s:f+*.state[2] }
+TB 50.0 s:f_s3_  { *-s:f+*.state[3] }
+TB 50.0 s:f_s4_  { *-s:f+*.state[4] }
+
+TB 50.0 y:f_s2_  { *-y:f+*.state[2] }
+TB 50.0 y:f_s3_  { *-y:f+*.state[3] }
+TB 50.0 y:f_s4_  { *-y:f+*.state[4] }
+
+TB 50.0 eh:m_s2_  { *-eh:m+*.state[2] }
+TB 50.0 eh:m_s3_  { *-eh:m+*.state[3] }
+TB 50.0 eh:m_s4_  { *-eh:m+*.state[4] }
+
+TB 50.0 ey:m_s2_  { *-ey:m+*.state[2] }
+TB 50.0 ey:m_s3_  { *-ey:m+*.state[3] }
+TB 50.0 ey:m_s4_  { *-ey:m+*.state[4] }
+
+TB 50.0 k:m_s2_  { *-k:m+*.state[2] }
+TB 50.0 k:m_s3_  { *-k:m+*.state[3] }
+TB 50.0 k:m_s4_  { *-k:m+*.state[4] }
+
+TB 50.0 n:m_s2_  { *-n:m+*.state[2] }
+TB 50.0 n:m_s3_  { *-n:m+*.state[3] }
+TB 50.0 n:m_s4_  { *-n:m+*.state[4] }
+
+TB 50.0 ow:m_s2_  { *-ow:m+*.state[2] }
+TB 50.0 ow:m_s3_  { *-ow:m+*.state[3] }
+TB 50.0 ow:m_s4_  { *-ow:m+*.state[4] }
+
+TB 50.0 s:m_s2_  { *-s:m+*.state[2] }
+TB 50.0 s:m_s3_  { *-s:m+*.state[3] }
+TB 50.0 s:m_s4_  { *-s:m+*.state[4] }
+
+TB 50.0 y:m_s2_  { *-y:m+*.state[2] }
+TB 50.0 y:m_s3_  { *-y:m+*.state[3] }
+TB 50.0 y:m_s4_  { *-y:m+*.state[4] }
+
+TR 1
+
+ST Data/Cluster_triphones_fm.trees

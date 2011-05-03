@@ -1,0 +1,342 @@
+Copyright (C) 2010 Texas Instruments Incorporated -  http://www.ti.com/
+ALL RIGHTS RESERVED
+
+
+Overview of the TIESR Speech Recognizer
+---------------------------------------
+This document provides an overview of the TI Embedded Speech Recognizer (TIESR)
+for Speaker-Independent recognition.  The overview covers a description of the
+recognizer, information concerning use of the recognizer, and a description of
+the foundational APIs that implement the recognizer.  It discusses procedures
+necessary to port the recognizer to a specific platform, as well as supporting
+tasks such as testing and integration.
+
+The TIESR speech recognizer is targeted toward embedded platforms where
+computation and memory storage efficiency are important. TIESR is written in C
+and C++ using only fixed-point operations. It is grammar-based, which means that
+an application must specify a grammar defining the allowable words and phrases
+that can be recognized (TIESR is not a large vocabulary recognizer that uses a
+language model). TIESR is what would be considered a "medium sized" recognizer,
+being able to recognize up to several hundred words. An application can change
+the grammar prior to recognizing any spoken utterance.  The recognizer allows an
+application to determine what valid grammar phrase was spoken, as well as
+providing a measure of confidence that the phrase was recognized correctly.  If
+the confidence of correct recognition is low, it may also provide a list of
+other likely valid grammar phrases. TIESR is written to be simple to use for an
+application designer who quickly wants to implement speech recognition. It also
+provides more advanced controls so that one can implement more detailed
+configuration and operation of the recognizer. TIESR simplifies the interface
+for the application designer by providing default settings of controls that work
+for most situations.  However, TIESR also provides the capability for advanced
+tuning of the recognizer configuration.  If desired, the application designer
+can use the advanced settings to implement some configuration of the recognizer
+engine itself, such as tuning performance based on some user selection.  The
+application designer may also wish to determine the proper ranges of parameter
+settings in order to optimize performance.  Tuning of the parameters requires
+knowledge of the TIESR recognizer algorithms which is beyond the scope of this
+document.
+
+TIESR contains two main APIs for interface with the application designer. The
+TIesrFlex API provides the designer with the tools to create a recognition
+grammar and acoustic model set for use with TIESR.  The output of the TIesrFlex
+API is a directory containing a set of binary files defining a grammar and the
+associated acoustic models.  The designer may create grammar/model sets at any
+time, and can maintain them for reuse or delete them after speech recognition
+has taken place.
+
+The other main API is the TIesrSI API.  This API performs the actual speech
+recognition. It implements an easy-to-use interface with the ability to create,
+open, start, stop, close, query, and delete a recognizer instance.  The TIesrSI
+API is multi-threaded, starting recognition in a separate thread so that an
+application is free to perform other processing while recognition is being
+performed.  TIesr interacts with an application through two callback functions
+that inform the application when the recognizer is ready to receive speech
+input, and when the recognizer has completed recognition of a spoken phrase.
+
+Detailed documentation of use of the APIs can be found in the directory
+associated with each API, and in the API header files which have detailed
+comments.
+
+TIesr comes with a default general American English dictionary and acoustic
+model data.
+
+
+Overview - Some Recognizer Details
+----------------------------------
+TIESR is a statistical speech recognizer, meaning that it tries to find the
+grammar phrase that most closely matches the spoken utterance. TIESR uses
+state-of-the-art Hidden Markov Model (HMM) technology to model the acoustic
+signals found in speech. In order to be able to recognize any word, TIESR HMMs
+model phonetic sounds, and these phonetic models are concatenated to form the
+models for words. The HMMs are usually context-dependent "triphones", meaning
+that each HMM models a phonetic sound in the context of preceding and following
+phonetic sounds. Usually TIESR has separate HMM models for females and males.
+The HMMs for the phones are not restricted to have the same number of states.
+The acoustic model for each state is a multi-mixture Gaussian probability
+density function which may be shared with other states.
+
+TIesr uses a variant of mel-frequency cepstral coefficients as the acoustic
+model features. It also implements delta cepstral coefficients, but does not use
+delta-delta coefficients in order to reduce space and processing. 
+
+In order to be able to recognize any word, TIESR must determine the phonetic
+pronunciation of a word and concatenate the phonetic HMMs to form the model for
+a word. TIESR accomplishes this using decision tree technology to create an
+initial estimate of the pronunciation of a word based on its spelling. It
+validates the pronunciaion by looking it up in a dictionary. If there is no
+entry in the dictionary, TIESR uses the initial estimate. The dictionary may
+also provide multiple pronunciations. TIESR stores the dictionary in a
+compressed binary form. At present, the TIESR APIs do not include the capability
+to modify the dictionary; it is created offline.
+
+The TIESR recognizer includes advanced algorithms to help it operate robustly in
+the presence of stationary background noises (the sound of the noise does not
+change much during the speech). TIESR includes dynamic adaptation to the
+environment, such as adaptation to changes in microphones and background noises.
+It uses other algorithms to reduce computation and memory storage requirements.
+
+All manipulation of recognition grammars and results that require text handling
+is done via C strings.  The API does not implement support for international
+language character sets.  This does not inherently hamper implementation of
+recognition, since there can be a representation in equivalent ASCII strings,
+and conversion can take place at a higher API level.
+
+
+Overview - TIESR Speech Recognizer Data
+---------------------------------------
+The TIESR speech recognizer is a flexible speech recognition engine. It uses
+three types of data to construct a grammar/model set that defines its operation;
+1) pronunciation decision trees used to estimate word pronunciation from word
+spelling, 2) a pronunciation dictionary, 3) acoustic model information needed to
+construct HMMs for the words in a grammar. These three pieces of data are
+created offline by training algorithms. In the first release, TIESR comes with
+the decision trees, dictionary, and acoustic model information for general
+American English. In addition, it comes with a support tool in order to create a
+custom pronunciation dictionary. 
+
+The pronunciation decision trees and acoustic model information must be trained
+from large sets of input data. This information is by nature language-dependent.
+Therefore, specific data is required for an individual language.  The amount of
+data needed to implement support for a given language will vary, depending many
+factors, such as the regularity of word pronunciations within a language.
+Decision tree training and output tools are included as of Beta-1.2. Acoustic
+model training is most easily done using the openly available HTK toolset, and
+tools to convert from HTK output models to TIESR HMM information are available
+as of release Beta-1.2. The tools provide detailed documentation to enable
+complete customization of TIESR.
+
+If TIESR is to be used with only one grammar/model set, such as a command and
+control application, then the above data need not be stored in the device. The
+only requirement is storage of the grammar/model set.
+
+
+Overview - Using TIESR successfully
+-----------------------------------
+Probably one of the most important tasks for ensuring optimal TIESR recognizer
+performance is testing and confirming the quality of the audio signal delivered
+to the recognizer.  TIESR provides the ability to capture in a file the audio
+data used during recongition. Initially audio should be captured and analyzed to
+ensure that voice signals do not saturate or are too low in amplitude.  Checks
+should be made to ensure that there is minimal audio distortion. The old saying
+remains true, "Garbage in, garbage out."
+
+A significant component to using the TIESR speech recognizer capabilities is
+defining the user interaction between TIESR and applications that are voice
+enabled.  This requires defining and developing a uniform user interface between
+TIESR and applications.  This may include developing a consistent set of GUI
+interfaces for TIESR and implementing higher level APIs above the TIESRSI APIs
+that provide voice enabling with a consistent look and feel between
+applications. A poor user interface may tend to appear to the user as though the
+recognizer is not working well.
+
+A speech recognizer will obviously perform best when the input audio is known to
+contain the speech to be recognized. So, TIESR should not be started until the
+application desires to perform speech recognition. TIESR has a built in
+time-out, such that it will automatically stop recognition if no speech is seen
+for a duration of time. A means for the user to start recognition (such as "push
+to start") is highly recommended.
+
+
+
+
+The TIESR API Software Package
+------------------------------
+The TIESR API package consists of seven APIs.  Each API is implemented as a
+shared object (DLL) library written either in C or C++.  In addition to the
+APIs, the released software includes support tools that are written in C, and
+support scripts written in Perl. The following paragraphs provide an overview of
+each of the APIs comprising the TIESR Recognizer, and the support tools provided
+with TIESR. Detailed descriptions of each API or tool may be found under the
+directory containing the API or tool.
+
+
+TIesrSI API
+-----------
+The TIesrSI API, written in C, is the top-level wrapper above the TIesrEngine
+APIs that perform speech recognition.  The main purpose of the TIesrSI API is to
+provide an easy-to-use interface between the TIesrEngine APIs and applications. 
+The TIesrSI API provides a simple interface to create, open, start, stop, close,
+and destroy a TIESR speech recognizer instance. Opening a recognizer instance
+attaches a grammar/model set to the recognizer and defines the audio channel to
+be used. The TIesrSI API provides for multithreading of recognizer processing. 
+Most speech recognition applications occur in an interactive environment. 
+Therefore, once speech recognition starts, other events may require that the
+speech recognition processing be terminated, or other processing may need to
+take place while recognition is ongoing. For example, on a cell phone, a user
+may start recognition of an utterance, and then receive an incoming phone call. 
+Such events require the recognizer to operate in a multithreaded environment.
+The TIESRSI API provides this multithreading capability by starting the
+recognizer in a separate thread.  The recognizer thread interacts with the
+application thread via two callback functions which indicate that the recognizer
+is ready to receive speech input, and that a recognition result is ready. After
+stopping the recognizer, the application can query for recognition results,
+confidence measures, or recognizer status. Closing the recognizer detaches the
+grammar/model set from the recognizer. 
+
+The TIesrSI API also acts as an interface between the TIesrEngine APIs and the
+TIesrFA (Frame Audio) API, thereby isolating the TIesrEngine APIs from the means
+of obtaining audio data. The TIesrSI API manages the process of receiving audio
+data from the TIesrFA API and providing it to the TIesrEngine APIs for
+subsequent speech recognition processing.
+
+
+TIesrFA API
+-----------
+The TIESREngine APIs process frames of audio data samples, where a frame is a
+fixed number of samples.  By default, the TIESR recognizer operates on 160
+sample frames collected at 8000 samples/second.  The format of the samples
+should be 16-bit linear sampling. The TIesrEngine APIs may not be able to
+process a particular frame of data in real-time.  This requires that frames of
+audio data be buffered and presented to the TIesrEngine APIs as they have
+capability to consume them. The TIesrFA (Frame Audio) API, written in C,
+provides the TIesrSI API a uniform and well-defined interface that collects
+frames of audio data in a buffer and manages the buffer.  While the TIesrFA API
+interface is well defined, the implementation of the API depends upon the OS and
+hardware platform capabilities. Usually an OS and/or hardware platform provides
+an API that implements an audio recording capability which will be used to
+implement the TIesrFA API.  The TIESR release provides implementations of the
+TIesrFA API for Linux using the ALSA library API and for Windows using the
+Waveform Audio API. These implementations may be used as a template for creating
+a new implementation for a particular OS or platform. Using one of the
+implementations as a template, only the portions that interact with the OS or
+device audio API must be modified for each OS or platform. The TIesrFA API
+provides the capability to open, start, stop and close an audio channel data
+collection session, and to provide frames of audio data upon request. TIesr FA
+starts data collection in a separate high-priority thread to perform audio
+collection in real-time.
+
+The TIesrFA implementations provided in the TIESR release define a simple method
+whereby audio input for recognition may originate from a file, rather than a
+real-time audio channel.  This can be very useful for testing and analyzing
+recognizer performance, and confirming correct operation.  This capability also
+provides an excellent method to debug recognition-enabled applications.
+
+
+TIESREngine APIs
+----------------
+The two TIesrEngine APIs are the TIesrSIEngine API and the TIesrEngineCore API. 
+These APIs provide the foundation of the speech recognizer capabilities.  These
+APIs are written in fixed-point C code.  These two APIs provide the entire
+detailed signal processing necessary to implement a state-of-the-art statistical
+speech recognizer based on Hidden Markov Modeling (HMM) concepts.  The
+TIesrEngineCore API implements core speech recognition functions such as
+extraction of salient features from the speech signal and search and decoding
+algorithms to match the input speech with the grammar/model set.  The
+TIesrSIEngine API implements additional functions such as robust adaptation to
+environmental variations and audio channel distortions, as well as interfacing
+between the TIesrEngineCore API and the TIesrSI API. 
+
+The TIesrEngine APIs' C code has not been optimized for any particular hardware
+processor. However, code in the APIs includes techniques to reduce computation
+and efficiently implement processing.  Some of the code may be conducive to
+hardware-specific optimization.  For example, the APIs contain front-end speech
+processing code which converts frames of sampled data to vectors of speech
+features using a sequence of filtering, windowing, FFT calculation, and linear
+transformation. Additional functions within the APIs involve signal processing
+mathematical calculations.  These functions may lend themselves to optimization
+by hardware-specific methods. However, other functions within the APIs, such as
+the core search engine functionality, are not as likely to be conducive to
+optimization.
+
+The TIesrEngine APIs must access and generate various types of data in order to
+operate. For example, when the application requires dynamic grammar/model
+generation, TIESR must access the acoustic HMM information and the dictionary,
+then generate a grammar/model set and store them. The TIesrEngine APIs implement
+data access and model storage by standard C file I/O operations.
+
+
+TIesrFlex API
+-------------
+The TIesrFlex API, written in C++, is the top-level API that supports
+dynamically creating grammar/model sets. An application can access the
+functionality at any time to build a grammar/model set for the desired phrases
+to be recognized.  The application need only supply the grammar of phrases to be
+recognized as an ASCII string utilizing a well-defined format that is
+easy-to-use and flexible, along with the location of a directory containing
+acoustic and pronunciation information. TIesrFlex parses the phrases and
+utilizes the TIesrDict API to determine the pronunciation of each word.  The
+TIesrDict API can accommodate unseen words, so that a grammar/model set can be
+created which contains any word, even if that word is not known within the
+dictionary.  The TIesrFlex API creates a grammar/model set as files in a
+directory that the TIesrSI API can subsequently utilize to perform recognition.
+This directory contains all of the data the TIesrSI API needs to perform
+recognition. The directory may be retained for future recognition of the same
+phrases, or can be deleted after the TIesrSI API uses it.
+
+The TIesrFlex API can handle arbitrarily large grammar sizes.  However, in order
+to minimize recognizer footprint and maximize efficiency, the TIesrSI API
+presently has limitations on the size of grammar networks and HMM model sets. 
+Depending on the complexity of the grammar network and phrases to be recognized,
+recognition is typically limited to between 150-200 words within a grammar/model
+set. Of course, grammar/model sets can be dynamically generated by an
+application, providing for dynamically changing grammars at any time.
+
+
+TIesrDict API
+-------------
+The TIesrDict API, written in C++, provides the phonetic pronunciations of words
+so that the TIesrFlex API can create grammar/model sets for speech recognition.
+The TIesrFlex API initializes the  TIesrDict API by specifying the directory
+locations of a dictionary and pronunciation information.  TIesrFlex obtains the
+pronunciation of a word by supplying the TIesrDict API with an ASCII string
+representing a word. The TIesrDict API determines the pronunciation of the word
+in a two step process.  First the TIesrDict API sends the word to the TIesrDT
+API which returns an estimated pronunciation of the word based on word spelling
+alone. The TIesrDict API then checks if the word is in the dictionary. If the
+word is not in the dictionary, then TIesrDict uses the pronunciation provided by
+TIesrDT. If the word is in the dictionary, then the application may choose to
+use either the dictionary pronunciation or both the dictionary pronunciation and
+that returned by TIesrDT. The dictionary may also contain multiple
+pronunciations for a single word. For example, the word "read" may be pronounced
+in two ways. The application may choose to use any number of pronunciations of a
+word.
+
+The use of TIesrDT within the TIesrDict API provides two advantages. First, if a
+word is not in the dictionary, then TIesrDT can provide a pronunciation of the
+word so that the grammar/model set can handle any possible word. This is
+commonly needed for proper nouns such as names or places. The second advantage
+is that TIesrDT minimizes the size of the dictionary. Instead of providing the
+complete pronunciation of a word, the dictionary only contains the differences
+between the TIesrDT pronunciation and the desired pronunciation. For a general
+American dictionary this results in word pronunciation entries that are only
+slightly larger than one byte per word on average.
+
+Presently, the reduced-size pronunciation dictionary is prepared offline using
+the TIesrDT API and a user-supplied pronunciation dictionary text file. The
+TIESR release includes a utility, dictproc, for this purpose. Using dictproc one
+can create a custom dictionary for a particular application.
+
+
+TIesrDT API
+-----------
+As mentioned above, the TIesrDict API uses the TIesrDT API to determine the
+pronunciation of a word based on the spelling of the word alone. The TIesrDT
+API, written in C, utilizes pronunication decision trees which determine the
+pronunciation of each letter in a word based on surrounding letter context.
+TIesrDT traverses the decision trees to generate the estimated pronunciation. 
+
+The decision trees must be prepared offline based on the input from a large
+number of pronunciations of words. This process is somewhat complex, requiring a
+sequence of training steps to develop and minimize the size of the decision
+trees. As of release Beta-1.2 TIESR includes these tools and detailed
+documentation required to develop a set of decision trees.

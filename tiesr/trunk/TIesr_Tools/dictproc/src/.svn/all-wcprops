@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/tiesr/!svn/ver/15/trunk/TIesr_Tools/dictproc/src
+END
+dictproc.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/tiesr/!svn/ver/15/trunk/TIesr_Tools/dictproc/src/dictproc.c
+END
+english.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tiesr/!svn/ver/7/trunk/TIesr_Tools/dictproc/src/english.c
+END
+parse.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/tiesr/!svn/ver/7/trunk/TIesr_Tools/dictproc/src/parse.c
+END
+dmakeup.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tiesr/!svn/ver/7/trunk/TIesr_Tools/dictproc/src/dmakeup.h
+END
+phoneme.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tiesr/!svn/ver/7/trunk/TIesr_Tools/dictproc/src/phoneme.c
+END
+spellword.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/tiesr/!svn/ver/7/trunk/TIesr_Tools/dictproc/src/spellword.c
+END
+compress_entry.c
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/tiesr/!svn/ver/7/trunk/TIesr_Tools/dictproc/src/compress_entry.c
+END
+dictproc.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/tiesr/!svn/ver/11/trunk/TIesr_Tools/dictproc/src/dictproc.h
+END
+phones.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/tiesr/!svn/ver/7/trunk/TIesr_Tools/dictproc/src/phones.c
+END
+saynum.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/tiesr/!svn/ver/7/trunk/TIesr_Tools/dictproc/src/saynum.c
+END
+map.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/tiesr/!svn/ver/7/trunk/TIesr_Tools/dictproc/src/map.c
+END

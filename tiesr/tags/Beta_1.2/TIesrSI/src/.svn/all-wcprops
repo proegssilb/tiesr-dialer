@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/tiesr/!svn/ver/3/tags/Beta_1.2/TIesrSI/src
+END
+TIesrSI.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/tiesr/!svn/ver/3/tags/Beta_1.2/TIesrSI/src/TIesrSI.c
+END
+TestTIesrSI.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/tiesr/!svn/ver/3/tags/Beta_1.2/TIesrSI/src/TestTIesrSI.cpp
+END
+TIesrSI_User.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tiesr/!svn/ver/3/tags/Beta_1.2/TIesrSI/src/TIesrSI_User.h
+END
+TIesrSI.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/tiesr/!svn/ver/3/tags/Beta_1.2/TIesrSI/src/TIesrSI.h
+END
+TestTIesrSI.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/tiesr/!svn/ver/3/tags/Beta_1.2/TIesrSI/src/TestTIesrSI.h
+END

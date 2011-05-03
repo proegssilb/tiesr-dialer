@@ -1,0 +1,829 @@
+Document License
+
+ This work is licensed under the Creative Commons Attribution-Share Alike 3.0
+ United States License. To view a copy of this license, visit 
+ http://creativecommons.org/licenses/by-sa/3.0/us/
+ or send a letter to Creative Commons, 171 Second Street, Suite 300,
+ San Francisco, California, 94105, USA.
+
+ 
+Contributors to this document
+
+ Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com/
+
+
+
+Introduction
+============
+
+The TIesr recognizer relies upon a set of data files in order to be able to
+perform speech recognition. These data files contain the information about the
+language, words, word pronunciations, and acoustic signals associated with
+words. By changing the data files the user may customize TIesr to perform
+recognition of a different language, or recognition of a set of custom
+words or phrases. The a default set of data files for general English is
+included with the TIesr release and is found under the directory:
+
+Data/OffDT_GenDict_PhbVR_LE_MQ/English
+
+Examination of this directory will show that there are several sub-directories
+and many data files.
+
+Creation of the data files takes some effort and requires familiarity with some
+of the underlying concepts of speech processing. One who wishes to create a new
+set of data files must understand the concepts of phonetic pronuncation of
+words, of Hidden Markov Models (HMMs), and certain other basic concepts of data
+clustering.
+
+This document provides descriptions of the processing steps needed to form a new
+set of data files for a user's particular requirements. A suite of tools is
+provided to help with the data file creation tasks.
+
+The TIesr_Tools/Example directory contains a tutorial example of using the TIesr
+tools to create a set of data files. The documentation in this file and the
+ReadMe.txt file in the TIesr_Tools/Example directory provide instructions on the
+use of the off-line tools.  The TIesr_Tools/Example directory also contains the
+ReadMe_SmallVocabulary.txt file that explains how the number of steps needed to
+create the data files may be reduced for small vocabulary applications.
+
+Necessary External Tools
+------------------------
+Data preparation for TIesr uses several openly available tools, usually
+available in source format. However, some of the tools do not allow
+redistribution of the source code, and so prior to preparing a set of data files
+you must obtain these tools. A list of the tools is given below.
+
+The Hidden Markov Modeling Toolkit (HTK) is used extensively for data
+preparation tasks. It comes with a detailed manual, and one should read it to
+understand the operation of the HTK tools. HTK may be obtained from: 
+
+http://htk.eng.cam.ac.uk/
+
+The decision tree training tool c4.5 is used to create letter to phone
+pronuncation decision trees, and can be obtained from:
+
+http://www.rulequest.com/Personal/
+
+Many of the provided tools are perl scripts. Some of the scripts utilize
+contributions from the CPAN. The following modules must be available for the
+scripts to operate properly:
+
+Math::FFT
+Algorithms::Cluster
+
+These tools should be downloaded, built, and placed appropriately in a directory
+that is part of the correct path so that the tools can be executed from the
+user's command line, or accessed as needed.
+
+TIesr Tools
+-----------
+A suite of TIesr tools is provided to create the data files These tools are
+located in the TIesr_Tools directory, and its sub-directories. Some of the tools
+are perl scripts, and some of the tools are written in C/C++. Some perl script
+tools use additional perl modules that are included in the directory. It is up
+to the user to build the C/C++ tools and to ensure that the scripts and
+executable files are available for use in the user's environment. 
+
+As with the TIesr APIs and test programs, the tools written in C/C++ are
+provided as NetBeans IDE projects for ease of modification and building. For
+user's that do not have the IDE, a Makefile is provided  in the TIesr_Tools
+directory which can be used to build the tools. Instructions on use of the
+Makefile are provided by entering:
+
+make help
+
+See the ReadMeFirst.txt documentation file for additional information.
+
+
+Data Preparation
+================
+Data files for TIesr are created and prepared by a process of training from
+input pronunciation and acoustic data files. There are two main pieces of
+input data that are required. 
+
+The first is a text file dictionary that explains the pronunciation of words in
+terms of the phonetic sounds that make up words. The user must define the set of
+acoustic phonetic sounds that make up the words in the vocabulary of interest.
+Usually most languages have about fifty phonetic sounds. The subject of exactly
+what phonetic sounds exist in a language is beyond the scope of this document.
+The dictionary must consist of word entries with one word entry per line. Each
+line consists of the word, followed by a listing of phone names that define the
+pronunciation of a name. The lines should be sorted in alphabetical word order.
+Double quotes may be used to surround words, which is necessary if the words
+contain punctuation. The dictionary should be formatted as an acceptable HTK
+dictionary. HTK tools provide assistance in creating and managing the dictionary
+file, and so the HTK tools should be consulted. An example of a few word entries
+in a dictionary are shown below.
+
+"ACTRESSES"          ae k t r ax s ax z
+"ACTS"               ae k t s
+"ACTUAL"             ae k ch uw ax l
+
+In the above example, the word "ACTRESSES" is pronounced using the sequence of
+phonetic sounds given by "ae" "k" "t" "r" "ax" "s" "ax" and "z", and similarly
+for the other words.
+
+In order to successfully provide general coverage of a language, the number of
+words in the pronunciation dictionary should be large enough to cover the
+variation of pronunciations within the language. (As an example, the
+number of words used to create the default general English data files was
+about 90000). A much smaller pronunciation dictionary may be used if the TIesr
+recognizer will be used for a limited vocabulary.
+
+Here are a few hints in making the dictionary. The pronunciation of each letter
+in a vocabulary should be in the dictionary, if it is used in speech at
+times. For example, the dictionary should include:
+
+"X" eh k s.
+
+Abbreviations should not in general be in the dictionary, since there are full
+words that represent the abbreviation and they should be specified explicitly in
+the recognizer. Some words or abbreviations are pronounced by saying each
+letter, for example "XML". In this case, the abbreviation should not be included
+in the dictionary, and the speech recognizer grammar should use "X M L", not
+"XML".
+
+The second input data requirement is a database of speech data. The speech data
+is used to train statistical acoustic Hidden Markov Models (HMMs). This data
+should be representative of the talkers that will be encountered by the
+recognizer.  For example the data should include both male and female talkers,
+and perhaps children, and should include the various accents expected. The
+speech data should be provided as short files containing recordings of words,
+phrases, or short paragraphs. A transcription of the words spoken in each of the
+files should be a part of the data. If possible, the male and female speech
+data should be separated, since separate processing of male and female data
+provides better recognition performance. The speech data samples should be
+single-channel 16-bit signed binary numbers sampled at 8kHz sampling rate. The
+size of the speech database will depend on the amount of language coverage
+desired. If the TIesr recognizer will be used for a limited vocabulary, then
+enough speech data should be available to provide many repetitions of the
+vocabulary words by both male and female talkers.
+
+
+Building Pronunciation Decision Tree Data Files
+===============================================
+The TIesrFlex API must determine an estimated word pronunciation from the
+spelling of the word. This is accomplished by using the TIesrDT API to obtain
+the estimated pronunciation of a word by consulting a set of Decision Tree
+Pronunciation Model (DTPM) data files. An example of these files is found in the
+directory Data/OffDT_GenDict_PhbVR_LE_MQ/English. The DTPM files are named
+*.olmdtpm where * represents a letter. For example, the DTPM file for the letter
+A is found in the file A.olmdtpm. The DTPM files are in a compressed binary
+format. Additional support files are cAttType.txt, cAttValue.txt, and
+onewphone.list. The DTPM file for each letter contains a a decision tree that
+determines the phonetic sound corresponding to the letter in a word given the
+context of the surrounding letters of the word. 
+
+1. The first step in creating the DTPM files is to build a letter-to-phone
+dictionary where each letter of a word is mapped to a phone, phone sequence, or
+a _sil symbol indicating the letter is silent in the word. This is done using
+the htk_ttp_map.pl perl script, which uses HTK training tools to create a
+maximum likelihood estimate of the best mapping between letters and phones or
+phone sequences (pseudophones). The inputs to the script include the original
+pronunciation dictionary described above and an initial letter-to-phone model
+file specified by the user that defines how a letter may be mapped to phones or
+phone sequences. The format of this file is one letter per line. The line starts
+with the letter followed by ':' and then sequences of phones followed by
+probabilities and separated by commas.  The special phone '_sil' indicates the
+probability that the letter is silent (has no phone output). For example the
+line:
+ 
+X: g s .2, z .3, k s .2, _sil .3
+ 
+states that the letter 'X' in a word may generate the phone string 'g s' with a
+probability 0.2, the phone 'z' with probability 0.3, the string 'k s' with
+probability 0.2, or no phone at all with probability 0.3.  These probabilities
+must add to 1.0. Do not be too concerned with the accuracy of the initial
+probabiliites. During training, htk_ttp_map.pl will determine maximum-likelihood
+estimates of the probabilities. The construction of the model file will depend
+on the nature of the language and the definition of the phones and phone
+sequences that may be mapped to a letter of a word. Once these two files are
+constructed, the htk_ttp_map.pl script may be run. To get detailed information
+on the htk_ttp_map.pl script you can run 'htk_ttp_map.pl -Help'. Note that the
+htk_ttp_map.pl tool uses the helper perl scripts htk_dict_to_mlf.pl,
+htk_letter_mmf.pl, and htk_ttp_parse.pl. All of these scripts have the option
+-Help which will provide further information about their function. An example of
+running the htk_ttp_map.pl script to build the letter-to-phone dictionary would
+be:
+
+htk_ttp_map.pl -C NaturalOrder.cnf \
+  -d mydictionary.dict \
+  -l letter_to_phone.file \
+  -w work_path -n 4 -t 3 \
+  -o mydictionary.ltp
+
+In this script, the file NaturalOrder.cnf is specified in order to assure that
+input and output are in the byte order of the machine running the HTK tools.
+This text file consists of:
+
+NATURALREADORDER = T
+NATURALWRITEORDER = T
+
+For the words in the original dictionary as shown above, an example of the
+output letter-to-phone mapped dictionary would be:
+
+"ACTRESSES"          ae k t r ax s _ ax z
+"ACTS"               ae k t s
+
+The "_" indicates that the second "S" in the word "ACTRESSES" is silent. The
+other word has one-to-one letter to phone mappings and does not require a
+null phone, "_" or any pseudophone.  An example of a letter-to-phone dictionary
+entry that requires a pseudophone is:
+
+"ANYONE"             eh n iy w_ah n _
+
+Here the letter "Y" corresponds to the phone "iy", which requires that the
+letter "O" map to the pseudophone "w_ah".
+
+During training of the letter-to-phone mapping dictionary, htk_ttp_map.pl may
+not be able to create a one-to-one letter to phone mapping for some words. These
+words are displayed in the output letter-to-phone mapping dictionary with a "*"
+character at the location where mapping failed. There are several reasons for
+this. One possibility is that the letter-to-phone model file does not contain a
+necessary letter to phone or phone sequence mapping entry. Another possibility
+is that for a particular word there may be more letters that are silent than
+specified in the -n option to htk_ttp_map.pl. Correction by adding new entries
+in the letter-to-phone model file or extending the number of silent letters are
+decisions that you must make based on knowledge of the language. Satisfactory
+creation of the letter-to-phone dictionary may require several passes of
+experimentation. After you are satisfied with the results, all entries in the
+dictionary containing the '*' character should be removed.
+
+2. The second step is to create DTPM files for training the letter decision
+trees. The ttp_dict_tree_data.pl script creates the data files. The input for
+training the decision tree for a letter is the set of cases found for values of
+attributes of the letter in the letter-to-phone mapping dictionary. The
+attributes of a letter can be made up of any of the following:
+
+- Letters found to the left of the letter in the words of the dictionary
+- Letters found to the right of the letter in the words of the dictionary
+- User-defined phonetic labels corresponding to phones mapping to letters to the
+left of the letter in the words of the dictionary
+- User-defined phonetic labels corresponding to phones mapping to letters to the
+right of the letter in the words of the dictionary.
+
+The data case corresponding to a word is the value of each attribute
+corresponding to the word, along with the phone that should be output given the
+data case.
+
+An example will explain this best. Consider making up the attributes from the
+following:
+
+- The four letters to the left of the letter
+- The four letters to the right of the letter
+- Voicing phonetic labels for the four phones mapping to the letters to the left
+of the letter
+- No voicing labels for phones mapping to letters to the right of the letter.
+
+Then consider the letter 'R' in the word 'ACTRESSES' as specified above. For
+this letter, the corresponding values of attributes, and the phone to output
+are given below.
+
+The values of the attributes for the four letters to the left are;
+L4 = fourth letter to the left of 'R' = no attribute value
+L3 = third letter to the left  of 'R' = 'A'
+L2 = second letter to the left of 'R' = 'C'
+L1 = first letter to the left of 'R' = 'T'
+
+The values of the attributes for the four letters to the right are:
+R1 = first letter to the right of 'R' = 'E'
+R2 = second letter to the right of 'R' = 'S'
+R3 = third letter to the right of 'R' = 'S'
+R4 = fourth letter to the right of 'R' = 'E'
+
+The user-defined voicing labels for the four phones mapped to the four letters
+to the left of the letter are:
+
+P1L4 = phone label of fourth phone (none) to left of 'R' = no attribute value
+P1L3 = phone label of third phone (ae) to left of 'R' = 'VOICED'
+P1L2 = phone label of second phone (k) to left of 'R' = 'UNVOICED'
+P1L1 = phone label of first phone (t) to left of 'R' = 'UNVOICED'
+
+The phone to output is the phone 'r'.  Thus the case corresponding to the letter
+'R' in the word 'ACTRESSES' can be written as:
+
+no,A,C,T,E,S,S,E,no,VOICED,UNVOICED,UNVOICED,r.
+
+The ttp_dict_tree_data.pl script will output two files for each letter. The
+*.names file will contain a list of all phones that map to the letter and all
+possible values that each attribute can take. The *.data file will contain all
+of the cases as defined above for the letter, with one case per line. The
+ttp_dict_tree_data.pl script is general purpose; the user is allowed to specify
+any number of left or right letter attributes, and any number of left or right
+phone label attributes. However, the TIesrDT API software is set up only to use
+the attributes as specified above, that is L4-L1, R1-R4, and P1L4-P1L1. Any
+change will require changing constants within the TIesrDT.h header file.
+Further, the number of attributes is limited to 15. 
+
+The ttp_dict_tree_data.pl script -Help option can be used to get detailed
+information about the script. A typical example of running the script to create
+data for training letter decision trees for TIesrDT is:
+
+ttp_dict_tree_data.pl -d mydictionary.ltp -L 4 -R 4 \
+  -p pseudophonelabels.lst -pL 4 -pR 0 -o . -w workdir
+
+In this command line, the pseudophonelabels.lst file consists of lines
+containing a phone name and a phone label corresponding to the phone. For
+example, if the user decides to label phones as VOICED/UNVOICED/SHORT_PAUSE,
+then example lines from the pseudophonelabels.lst file might be:
+
+_	SHORT_PAUSE
+aa	VOICED
+.
+.
+.
+ch	UNVOICED
+.
+.
+.
+
+3. The third step is actual training of the pronunciation decision trees for
+each letter. This is done using the c4.5 decision tree training program. The
+train_trees.pl script runs this training for each letter. An example of running
+this script to create pronunciation decision trees for each letter is:
+
+train_trees.pl -D . -CF 25
+
+The output of this script is a set of files for each letter. The *.unpruned and
+*.tree files are binary output files from the c4.5 program, and the *.CF*log
+files are text log files. Subsequent processing does not use the *.unpruned and
+*.tree files, but rather uses the tree information found in the *.CF*log files.
+
+The train_trees.pl script has a -Help option which will provide more detailed
+information about the script.
+
+4. The last step in creating pronunciation decision trees compresses the tree
+data found in the *.CF*log files into a binary form compatible with the TIesrDT
+API, This is implemented by the odtcompress.pl script. The result is a set of
+*.olmdtpm files, one for each letter. An example of running this script to
+create the compressed decision trees for each letter is:
+
+odtcompress.pl -D . -o . -CF 25
+
+The odtcompress.pl script also has a -Help option for detailed information about
+the script. There is an additional -B option which will output compressed data
+compatible with big-endian processors.
+
+
+The final set of files that the TIesrDT API needs should be created in the
+output directory. The files needed by the API are:
+
+*.olmdtpm
+cAttType.txt
+cAttValue.txt
+onewphone.list
+
+All other files created during the building process can be discarded.
+
+TIesr assumes that the data files are located in a particular directory
+hierarchy. The decision tree data files should be placed in a directory that
+has the language name as the last directory level. For example, note that the
+supplied decision tree data is located in the directory:
+
+Data/OffDT_GenDict_PhbVR_LE_MQ/English
+
+Once the decision tree data has been created, it can be tested using the
+testtiesrdt program provided with the release.
+
+Building the Compressed Binary Dictionary Files
+===============================================
+Once the TIesrFlex API obtains the estimated word pronunciation using TIesrDT,
+the second step is to look the word up in a binary pronunciation dictionary
+using the TIesrDict API. If the word exists in the binary pronunciation
+dictionary, then that pronunciation is more accurate than the one supplied by
+TIesrDT, and is the preferred pronunciation. The reason that TIesrFlex first
+finds the estimated word pronunication using TIesrDT is that this allows the
+binary pronunciation dictionary to be compressed significantly. If the TIesrDT
+pronunciation is correct, then no entry for the word needs to be in the
+pronunciation dictionary, and if the TIesrDT pronunciation is not correct, only
+the difference between the correct and TIesrDT pronunciation needs to be encoded
+in the binary pronunciation dictionary. In addition to the dictionary file, the
+TIesrDict API requires a text file that lists the phones in the dictionary.
+An example of the binary pronunciation dictionary files for the default
+general English data is found in:
+
+Data/OffDT_GenDict_PhbVR_LE_MQ/English/Dict
+
+which shows the two files phone.lis and dict.bin. Please note that TIesr
+expects the phone list file and the binary pronunciation dictionary file
+names to be phone.lis and dict.bin respectively, and these two files should be
+in a subdirectory of the directory where the decision trees are located. By
+convention the directory name 'Dict' is used.
+
+The TIesr release provides a C program, dictproc, under the TIesr_Tools
+directory to assist in creating the binary pronunciation dictionary files. The
+program makes use of TIesrDT in order to compress a pronunciation dictionary.
+Usually the binary pronuncation dictionary will be created using the input
+pronunciation dictionary initially prepared, which ensures that all words in the
+input dictionary are in the binary pronunciation dictionary or that TIesrDT
+predicts the pronunciation correctly. However, you are not required to use the
+input pronunciation dictionary to create the binary pronunciation dictionary
+file. You may use any pronunciation dictionary you choose. This allows one to
+add any desired words to create a set of custom binary pronunciation dictionary
+files. An example where this might be helpful would be in the recognition of a
+specific set of proper names.
+
+The dictproc program is run as follows:
+
+dictproc  inputdictionary phonelist outputdictionary endian map decisiontreedir
+
+Inputdictionary is the path to the input pronunciation dictionary that you would
+like to compress. The phonelist is the path to the phone.lis file that consists
+of the list of phones in the input dictionary. As mentioned previously, this is
+by convention placed in the Dict directory. Of course, the set of phones in the
+list must be compatible with the set of phones used in creating the
+pronunciation decision trees for TIesrDT. Usually they are the same. Note that
+phonelist is a list of the set of phones, not phones and pseudophones defined
+during preparation of the pronunciation decision trees. The output dictionary is
+the location that will hold the binary dictionary file dict.bin, and by
+convention the path should be Dict/dict.bin. The endian argument should be set
+to the string "little_endian" or "big_endian" depending on the target platform
+architecture. The map argument is usually set to 0 (zero). As a special case, if
+map is set to 1, then dictproc will automatically precede the voiced closure
+phones (b,d,g) with closure phones (bcl,dcl,gcl) and the unvoiced closure phones
+(k,p,t) with (kcl,pcl,tcl). Note that in this case the phone.lis file must also
+list the closure phones (bcl,dcl,gcl,kcl,pcl,tcl). The reason for using this
+mapping is that in some cases modeling closure phones improved speech
+recognition performance slightly. The decisiontreedir argument is the path to
+the pronunciation decision tree data that was created as described above. An
+example of running the dictproc program where all decision trees are located
+in the relative directory MyLanguage, and the phone list is located in the
+relative file MyLanguage/Dict/phone.lis and using stop closure phones is as
+follows:
+
+dictproc mydictionary.dict MyLanguage/Dict/phone.lis \
+  MyLanguage/Dict/dict.bin little_endian 1 MyLanguage
+
+
+Once the binary dictionary and phone list have been created, they can be tested
+along with the decision trees by using the testtiesrdict program supplied with
+the release.
+
+
+Building the Acoustic Model Data Files
+======================================
+The TIesrFlex API uses acoustic model data files to construct the acoustic HMM
+model set needed to recognize the words in the grammar network. An example of
+the acoustic model data files is found in the directory
+Data/OffDT_GenDict_PhbVR_LE_MQ/English/Models. The data files in this directory
+represent the information necessary to construct the HMMs needed by the grammar
+network. The data files are highly compressed to minimize the size of acoustic
+data files. The files do not store all possible HMMs for a given language and
+application, since the number of triphones found in a language can be quite
+large. Instead, the files contain acoustic information and a set of acoustic
+decision trees that TIesrFlex uses to dynamically construct the set of HMMs and
+the grammar network required for speech recognition.
+
+The binary acoustic data files are created by compressing HMM information
+obtained by using the HTK training tools. This requires using HTK to train a set
+of HMM models using the input speech database, and a corresponding pronunciation
+dictionary. The use of HTK to train a set of HMMs is beyond the scope of this
+document, but the HTK distribution comes with a very detailed HTK Book document
+that describes all aspects of the HTK tools. The user not familiar with HTK must
+read the HTK Book in order to understand the following discussion on preparing
+the acoustic model data files for TIesr.
+
+The structure of HMMs in TIesr requires a set of emitting states, and one final
+non-emitting exit state. Entry into an HMM must be to an emitting state, and
+exit is from the final non-emitting state. Therefore, HTK "tee" models are not
+allowed in TIesr.
+
+Preparing Data for HMM training
+-------------------------------
+As mentioned in the section on Data Preparation, training acoustic HMMs requires
+a speech database. Most speech databases consist of many files containing speech
+utterances, with associated transcription files for each utterance defining the
+words spoken. 
+
+The TIesr tools provide the sample_to_htk.pl perl script tool for converting raw
+sampled speech data in files into HTK-compatible files containing TIesr
+parameter vectors of the type used for recognition. The TIesr parameter vectors
+are a variant of the commonly-used cepstral parameters. The sample_to_htk.pl
+perl script provides options to define the number of cepstral parameters in a
+cepstral vector, the number of underlying filterbank parameters, the processing
+window size, and number of samples to shift between successive vectors (which
+defines the parameter frame rate). A script option, -be, specifies that the
+input sample data is in big-endian format; otherwise little-endian format is
+assumed. An option can specify the sample rate of the data. The sample data must
+be 16-bit linear samples. The default parameters nominally used in TIesr are an
+8kHz sample rate, 256 sample window size, 160 sample shift (20msec frame rate),
+20 underlying filterbank parameters, and 10 cepstra. These parameters are the
+assumed defaults by the sample_to_htk.pl script. So, for example, to convert a
+file utt.raw containing raw sampled data in little-endian format using the
+default parameters to an HTK compatible cepstral parameters file, one would
+simply run:
+
+sample_to_htk.pl -o output_directory utt.raw
+
+This will produce the output parameters file at output_directory/utt.htk. To
+examine the parameters in the file you can use the HTK HList tool. The
+HTK-compatible parameter files have a parameter kind of "USER", indicating that
+the TIesr-defined cepstral format is used.
+
+If the dictionary, described in Building Pronunciation Decision Tree Data Files,
+does not contain all of the words found in the speech utterances, then that
+dictionary must be updated, or a different dictionary prepared containing all of
+the words found in the speech data. The dictionary must be compatible with the
+HTK tools, as described in the HTK documentation.
+
+Training HMMs with HTK
+----------------------
+Once the speech data and dictionary have been prepared, HTK tools can be used to
+train the HMMs. It is not possible to provide a simple script or procedure that
+trains a set of HMM models using HTK, since there are so many decisions and
+alternative procedures possible to train HMMs. For example, one must define the
+phones that will be used to describe the language. Different users may wish to
+define more or less detailed sets of phones for the language. The topology  of
+the HMMs must be defined. One user may wish to use the same HMM topology for all
+phones, while another may wish to create separate HMM topologies with different
+numbers of states for each phone. One may also wish to tie state probability
+densities or individual components of the density in a unique way. Such
+decisions are up to the individual. TIesr has been designed such that it can
+accept most variations of continuous-density HMMs created by  HTK. In order to
+compress the model information, during training of HMMs the user must also
+prepare a set of acoustic decision trees following the procedures supplied with
+HTK.
+
+The following paragraphs describe requirements, and in some cases the
+conventions often used, for creating HMM model sets using HTK that will be
+compatible with TIesr. This is followed by paragraphs describing the tools that
+are used to compress the HTK model information to create the set of binary
+acoustic model data files for TIesr.
+
+The HMM models trained should include both static and delta cepstral parameters.
+This can be done by defining an HTK configuration file to produce the delta
+cepstral parameters during training. If desired, the user can also specify in
+the configuration file to use zero mean static cepstral parameters (cepstral
+normalization). Typically a configuration file will include the following:
+
+TARGETKIND = USER_D_Z
+DELTAWINDOW = 2
+
+HTK tools may output either binary or ascii files during training, however the
+TIesr tools require the ascii versions of the files. By convention, all HMMs and
+labels are kept in a small number of MMF or MLF style files as defined by HTK.
+By convention, the names of phones are single or multiple lower-case alphabetic
+characters.
+
+TIesr supports the concept of multiple similar HMM "sets", sometimes also
+referred to as "genders". These sets of HMMs operate in parallel during speech
+recognition. A typical use of HMM "sets" is creating HMM models for different
+"genders", for example one set of HMMs that represents male speakers and one
+that represents female speakers, since this has been shown to improve speech
+recognition performance. However, it is possible to use only a single HMM set,
+or more than two HMM sets( for example, a set of HMMs for male, for female, and
+for children, or sets for various accents). There must be the same number of
+HMMs within each set and they must have the same topology and function. For
+example, if there is a phone for the sound "uh" in one set, then the same phone
+must exist in all other sets, and the "uh" HMM in each set must have the same
+topology. HTK tools provide capabilities to produce these types of HMM model
+sets.
+
+TIesr supports either monophone or triphone models. The two types of models can
+not be mixed while recognizing a spoken utterance. However, it is possible to
+recognize one phrase with monophone HMMs and a subsequent phrase with triphone
+HMMs by using the TIesrFlex API with monophone data files or triphone data files
+to prepare an HMM model set and grammar network for TIesr.
+
+TIesr supports a wide variety of tying of state probability distributions, and
+Gaussian mean vectors and variance vectors that can be implemented with HTK.
+
+A special silence model, named "sil" must be included in the HMMs. This is a
+default model that may be placed between words in an utterance. There must be
+only one set-independent "sil" model, regardless of the number of HMM sets
+trained.
+
+The resulting ascii HTK MMF files that contain the HMMs must meet certain
+criteria as described below.
+
+All HMMs must be represented with macro names.  They may all be set-independent
+or all set-dependent, but not a mix. Set HMM names are marked by set tags
+appended to monophone names which must make a monophone name unique for a set,
+preferably ':*' where * indicates a set tag. Triphone names must be of the form
+*-<monophone>[<settag>]+* where * indicates leading and trailing monophone
+context, such as p-aa:m+l. Typically there are two sets denoted with '*:m' and
+'*:f', where * indicates the monophone name, and ':m' denotes a male HMM and
+':f' denotes a female HMM. However, there may be more than two sets, such as
+children, etc, or there may only be a single set with no set tag, such as
+p-aa+l.  Word ending context in triphones must use the special "sp" phone. For
+example, the word "no" would use the two phones sp-n+ow  and n-ow+sp.
+
+All HMMs use transition matrices defined in macros which define transitions
+for each phone. The transition matrix macros may all be set-independent or
+set-dependent, but not a mix of both. Set-dependent triphones may use either
+set-dependent or set-independent transition macros, but set-independent
+triphones may only use set-independent transition macros. The macro name must be
+of the form *<phone>[<settag>], for example, T_aa or T_aa:m. (This is not a
+requirement for the silence model.) The transition matrix used by a triphone
+must be tied to the center monophone of the triphone. For example, the triphone
+*-aa:m+* uses the transition matrix macro *aa if using set-independent
+transitions, or *aa:m if using set-dependent transitions.
+
+All HMM state acoustic distributions are defined by HTK ~s state macros, which
+for triphones are the result of HTK decision tree clustering. Otherwise, it is
+not possible for TIesrFlex to synthesize the triphone HMMs using decision trees
+alone. (The binary data that TIesrFlex uses does not explicitly include the HMM
+information for triphones from the MMF file since that would take too much
+space.  Instead, TIesrFlex synthesizes each needed triphone from decision
+trees.)
+
+Set-dependent decision tree clustered triphone state macro names must have the
+set tag included in the macro names, for example aa:m_s2_1 or aa:f_s2_1.
+
+The HTK acoustic decision tree data for TIesr must meet certain restrictions.
+If the decision trees will be set-dependent then the questions that form the
+trees must be specified as set-dependent. That is, the question names must
+end in the set tag name. For example, if a set-independent question name is
+LVowel, then the set-dependent names will be LVowel<settag>, such as LVowel:m
+and LVowel:f. In addition, the phonetic contexts associated with a
+set-dependent question must be written as set-dependent. Left context would be
+written as xxx-*<settag>*, and right context would be written as *<settag>+xxx,
+where xxx is the context. For example a left context of phone "aa" for a
+female set would be written as aa-*:f*, and a right phone context would be
+written as *:f+aa.
+
+TIesr tools for creating model data files can read multiple HTK MMF files, but
+the MMF files must be consistent, such as having the same feature size, etc.
+
+TIesr acoustic data compression tools can output cepstral vector and variance
+data in 16-bit words, or in bytes for reduced storage. Normally there is very
+little difference in performance between using 16-bit word or byte data.
+
+Converting HTK Data to TIesr-Compatible Acoustic Data Files
+-----------------------------------------------------------
+Once HTK training is complete, the following files should be available.
+
+- One or more HTK MMF files in ascii format containing the trained HMM models.
+
+- An HTK tree file defining the acoustic questions and decision trees to be able
+to construct triphones. This file will only be created if developing triphone
+HMM models.
+
+To create the TIesr-compatible compressed HMM data files, use the tool
+htk_mmf_to_tiesr.pl. This perl script has several options. The -Help option will
+display detailed information about the script. Use the -H option multiple times
+to specify one or more HTK MMF files containing the HMM data. Use the -d option
+to specify the output directory to hold the data files. If the trained HMM
+models consist of several sets, then use the -g option to specify the tags
+associated with each set as a string separated by commas, for example, use -g
+":m,:f" if you created male and female model sets. If you want to compress the
+HMM mean and variance data as bytes instead of 2-byte words, use the -bmean
+option to convert Gaussian mean vectors to bytes, and -bvar to convert variance
+vectors to bytes (however, see the section Creating the Gaussian Cluster Files
+below for further information on using -bmean and -bvar). If output should be in
+little-endian format, specify the -le option. If the MMF model sets contain
+monophones, then no acoustic decision tree data files are necessary to determine
+triphone models, and the -notrees option should be specified. These are usually
+the options that need to be considered. 
+
+The htk_mmf_to_tiesr.pl tool contains other more advanced options for more
+control over data file creation. The -l and -r options can be used along with
+command line arguments to specify a selected subset of HMM model names in the
+MMF files to be used when creating data files (for example, using only certain
+HMM sets). The -sb option should be specified if mean normalization was not used
+during training with HTK. If you wish the output data files to use fewer
+features than the trained feature vectors contain, the size can be specified
+with the -f option.
+
+The htk_mmf_to_tiesr.pl tool outputs several text files that can be helpful to
+confirm that model data files have been created correctly. The fxclust.list file
+contains a listing of all of the names of the clustered model states. The
+fxtran.list contains a listing of all HMM transition matrix names. These two
+files are not necessary for operation of TIesr, and can be deleted if desired
+after both htk_mmf_to_tiesr.pl and htk_trees_to_tiesr.pl have been run.
+htk_mmf_to_tiesr.pl also creates a monophone.list file that should not be
+deleted, and is also helpful for use with other diagnostic tools.
+
+To create the TIesr-compatible compressed data files containing the HTK question
+and decision tree information, use the htk_trees_to_tiesr.pl tool. This tool is
+only used when creating data files for triphone HMMs. This perl script has
+several options, but most of these are usually determined by the options used
+for htk_mmf_to_tiesr.pl. The -T option specifies the HTK tree file. If the trees
+are unique for each set, use the -g option as described above for
+htk_mmf_to_tiesr.pl. Specify the -le option if output should be in little-endian
+format. The -C option specifies the directory holding the data files that have
+been created with htk_mmf_to_tiesr.pl, and the -d option specifies the output
+directory for the compressed tree data files, which should normally be the same
+directory as specified in the -C option.
+
+The htk_trees_to_tiesr.pl tool outputs several text files that can be helpful to
+confirm that triphone acoustic decision tree data files have been created
+correctly. The _qs.list file lists all questions used by the trees. The
+_tree.list file contains a listing of all of the trees created for each
+individual monophone state. The _treetbl.list file contains a list of all
+monophones for which trees have been created. These three files are not
+necessary for operation of TIesr, and can be deleted if desired.
+
+
+Creating the Hierarchical Linear Regression Phone Cluster Tree File
+===================================================================
+During recognition TIesr takes steps to adapt acoustic models to the
+environment. Based on the amount of acoustic data that has been seen,
+TIesr will adapt models with similar acoustics using the shared adaptation
+parameters. As more acoustic data is seen, TIesr will use an acoustic
+hierarchical linear regression (HLR) tree to determine which models share
+similar acoustics. This section describes how to construct the HLR tree and the
+TIesr tools provided to construct a tree.
+
+The HLR tree file defines a binary tree clustering of monophone models according
+to the similarity of acoustics between models. The HLR tree file is a binary
+file. While it is possible to create a custom HLR tree file by hand with some
+effort, TIesr provides two tools to construct an HLR tree file.
+
+The first tool, htk_model_compare.pl, provides a measure of the similarity
+between monophone HMM models. Use of htk_model_compare.pl assumes that during
+the process of acoustic HMM model training using HTK set-independent monophone
+HMM models were created and trained, including the "sil" silence model. This is
+typically the case. The htk_model_compare.pl tool measures similarity of
+monophone HMM models by extracting the Gaussian mean vectors of the states of
+one model and using them as data to perform recognition using the other
+monophone HMM models.
+
+The htk_model_compare.pl tool requires a list of monophone models to be
+compared. This list should be the same as the phone list created when the binary
+dictionary was created (see Building the Compressed Binary Dictionary Files
+above) with one exception; at the beginning of the list must be the "sil" model.
+The order of phones in the phone list is important, and should agree with the
+dictionary phone list. The other requirement for the htk_model_compare.pl tool
+is one or more HTK MMF files containing the "sil" model and all of the
+set-independent monophone models. The tool creates an ascii output file listing
+relative likelihoods between models. A detailed description of the tool can be
+obtained by running it with the -Help option. Experience has shown that using
+only static feature components works well, and so the -s option is recommended.
+
+Once the relative scores have been obtained in the file output by
+htk_model_compare.pl, the cluster_models.pl tool can be used to prepare the HLR
+tree binary file. The cluster_models.pl tool performs binary tree clustering of
+the models based on the similarity measures output by htk_model_compare.pl.
+Detailed information about the tool can be obtained by running it with the -Help
+option. The -o option specifies the output file. Normally the file name should
+be "hlrtree.bin" and it should be located in the same directory as the
+pronunciation decision trees. Use the -le option to output data in little-endian
+binary format.
+
+
+Creating the Gaussian Cluster Files
+===================================
+In order to speed up recognition and improve performance, TIesr can
+classify incoming audio feature vectors, and simplify processing based on
+the cluster to which a feature vector belongs. Two files define the clusters
+used to classify feature vectors. The ROM2cls.bin file contains the cluster
+index of each Gaussian mean vector in the HMM model sets. The cls_centr.bin
+file contains the cluster centroid feature vector for each cluster. 
+
+In order to create these two files, all of the acoustic model data files must
+have been created, as specified in the above section on Building the Acoustic
+Model Data Files. Specifically, the htk_mmf_to_tiesr.pl tool (and
+htk_trees_to_tiesr.pl tool if triphone HMMs are trained) must have been run to
+create the binary acoustic data files. The htk_mmf_to_tiesr.pl tool must not
+have used the -bmean or -bvar options, since the creation of the ROM2cls.bin and
+cls_centr.bin files require that mean and variance data is not in byte format.
+If byte mean and variance data is desired to save memory space, then the
+htk_mmf_to_tiesr.pl can be re-run using the -bmean and/or -bvar options (and
+htk_trees_to_tiesr.pl re-run also if triphone acoustic models are being used)
+after creating the Gaussian cluster files. 
+
+The gaussiancluster tool is provided to create the two Gaussian cluster files.
+This is a C tool located under the TIesr_Tools/GaussianCluster directory, which
+contains the NetBeans project that can be used for building. If you do not wish
+to use the NetBeans IDE to build the project, the Makefile located in
+TIesr_Tools can be used to build the project. For further information on
+building using the Makefile, under the TIesr_Tools directory run 'make help'.
+
+The gaussiancluster tool will use the previously created acoustic data to form
+clusters of Gaussian mean vectors associated with the trained models. The
+output data includes the ROM2cls.bin and cls_centr.bin files, as well as
+additional files in text form for examining the result of clustering. The
+ROM2cls.list file will contain the cluster index for each model Gaussian mean
+vector. The cls_centr.list file will contain the centroid vector of each
+cluster. The cls_centr_fromROM.txt file will contain the index of the closest
+Gaussian model mean vector to each cluster centroid, and the Centroid_Var.list
+file will contain the pooled cluster variance of the clusters. It is important
+to note that only the two files ROM2cls.bin and cls_centr.bin are necessary;
+the others can be deleted.
+
+The gaussiancluster tool is run as follows:
+
+gaussiancluster modeldir meanfile varfile infofile numclusters littleendian
+
+Modeldir is the directory where all of the data files from htk_mmf_to_tiesr.pl
+and htk_trees_to_tiesr.pl have been output.  Meanfile is the name of a file that
+will hold the text Gaussian mean data during processing. The varfile will hold
+the text global variance data during processing. Both of these files can be
+examined after clustering if you are interested in the mean and global variance
+data. TIesr does not require these files, so they can be deleted after
+processing. Infofile is the name of a file to hold auxilliary information. This
+file name is currently not used. Numclusters is the number of clusters to form
+from the model Gaussian mean vectors. This is often set to 128, but one can
+experiment to determine the tradeoff between performance and memory
+requirements. Littleendian is set to 1 if you want output to be in little-endian
+format, or 0 for big-endian format.
+
+IMPORTANT NOTE: The gaussiancluster tool requires that the model data in the
+modeldir be of the same endianness as the machine that is running the
+gaussiancluster tool. If you are preparing data on a machine for a target
+machine of opposite endianness, then use the htk_mmf_to_tiesr.pl and
+htk_trees_to_tiesr.pl tools to create data for both the target endianness and
+your machine's endianness.
+
+

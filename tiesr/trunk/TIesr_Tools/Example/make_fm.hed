@@ -1,0 +1,38 @@
+DP "" 2 :f :m
+
+TI T_sil {sil*.transP}
+TI T_eh {eh:*.transP}
+TI T_ey {ey:*.transP}
+TI T_k {k:*.transP}
+TI T_n {n:*.transP}
+TI T_ow {ow:*.transP}
+TI T_s {s:*.transP}
+TI T_y {y:*.transP}
+
+TI var_eh_s2 { eh:*.state[2].mix[1].cov }
+TI var_eh_s3 { eh:*.state[3].mix[1].cov }
+TI var_eh_s4 { eh:*.state[4].mix[1].cov }
+
+TI var_ey_s2 { ey:*.state[2].mix[1].cov }
+TI var_ey_s3 { ey:*.state[3].mix[1].cov }
+TI var_ey_s4 { ey:*.state[4].mix[1].cov }
+
+TI var_k_s2 { k:*.state[2].mix[1].cov }
+TI var_k_s3 { k:*.state[3].mix[1].cov }
+TI var_k_s4 { k:*.state[4].mix[1].cov }
+
+TI var_n_s2 { n:*.state[2].mix[1].cov }
+TI var_n_s3 { n:*.state[3].mix[1].cov }
+TI var_n_s4 { n:*.state[4].mix[1].cov }
+
+TI var_ow_s2 { ow:*.state[2].mix[1].cov }
+TI var_ow_s3 { ow:*.state[3].mix[1].cov }
+TI var_ow_s4 { ow:*.state[4].mix[1].cov }
+
+TI var_s_s2 { s:*.state[2].mix[1].cov }
+TI var_s_s3 { s:*.state[3].mix[1].cov }
+TI var_s_s4 { s:*.state[4].mix[1].cov }
+
+TI var_y_s2 { y:*.state[2].mix[1].cov }
+TI var_y_s3 { y:*.state[3].mix[1].cov }
+TI var_y_s4 { y:*.state[4].mix[1].cov }

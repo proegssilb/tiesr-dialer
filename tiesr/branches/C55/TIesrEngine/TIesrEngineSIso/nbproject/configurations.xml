@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="62">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>../src/gmhmm.h</itemPath>
+      <itemPath>../src/gmhmm_si_api.h</itemPath>
+      <itemPath>../src/gmhmm_type.h</itemPath>
+      <itemPath>../src/gmhmm_type_common_user.h</itemPath>
+      <itemPath>../src/jac-estm.h</itemPath>
+      <itemPath>../src/jac-estm_user.h</itemPath>
+      <itemPath>../src/jac_one.h</itemPath>
+      <itemPath>../src/jac_one_user.h</itemPath>
+      <itemPath>../src/sbc_user.h</itemPath>
+      <itemPath>../src/siinit.h</itemPath>
+      <itemPath>../src/status.h</itemPath>
+      <itemPath>../src/tiesr_config.h</itemPath>
+      <itemPath>../src/tiesr_engine_api_sireco.h</itemPath>
+      <itemPath>../src/tiesrcommonmacros.h</itemPath>
+      <itemPath>../src/winlen.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+      <itemPath>../resource/TIesrEngineSI.ver</itemPath>
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <itemPath>../src/engine_sireco_init.c</itemPath>
+      <itemPath>../src/jac-estm.c</itemPath>
+      <itemPath>../src/jac_one.c</itemPath>
+      <itemPath>../src/liveproc.c</itemPath>
+      <itemPath>../src/siinit.c</itemPath>
+      <itemPath>../src/siproc.c</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="WindowsDebugMinGW" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>Cygwin|Cygwin</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <commandLine>-v -mno-cygwin</commandLine>
+          <preprocessorList>
+            <Elem>TIESRENGINESIAPI_EXPORTS</Elem>
+            <Elem>WIN32</Elem>
+          </preprocessorList>
+          <warningLevel>2</warningLevel>
+        </ccTool>
+        <linkerTool>
+          <output>../../Dist/${CND_CONF}/libTIesrEngineSI.dll</output>
+          <linkerLibItems>
+            <linkerLibProjectItem>
+              <makeArtifact PL="../TIesrEngineCoreso"
+                            CT="2"
+                            CN="WindowsDebugMinGW"
+                            AC="false"
+                            BL="true"
+                            WD="../TIesrEngineCoreso"
+                            BC="${MAKE}  -f Makefile CONF=WindowsDebugMinGW"
+                            CC="${MAKE}  -f Makefile CONF=WindowsDebugMinGW clean"
+                            OP="../../Dist/WindowsDebugMinGW/libTIesrEngineCore.dll">
+              </makeArtifact>
+            </linkerLibProjectItem>
+          </linkerLibItems>
+          <commandLine>-v</commandLine>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="WindowsReleaseMinGW" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>Cygwin|Cygwin</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+          <commandLine>-v -mno-cygwin</commandLine>
+          <preprocessorList>
+            <Elem>TIESRENGINESIAPI_EXPORTS</Elem>
+            <Elem>WIN32</Elem>
+          </preprocessorList>
+          <warningLevel>2</warningLevel>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <linkerTool>
+          <output>../../Dist/${CND_CONF}/libTIesrEngineSI.dll</output>
+          <linkerLibItems>
+            <linkerLibProjectItem>
+              <makeArtifact PL="../TIesrEngineCoreso"
+                            CT="2"
+                            CN="WindowsReleaseMinGW"
+                            AC="true"
+                            BL="true"
+                            WD="../TIesrEngineCoreso"
+                            BC="${MAKE}  -f Makefile CONF=WindowsReleaseMinGW"
+                            CC="${MAKE}  -f Makefile CONF=WindowsReleaseMinGW clean"
+                            OP="../../Dist/WindowsReleaseMinGW/libTIesrEngineCore.dll">
+              </makeArtifact>
+            </linkerLibProjectItem>
+          </linkerLibItems>
+          <commandLine>-v</commandLine>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="LinuxDebugGnu" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU_current|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <commandLine>-v</commandLine>
+          <warningLevel>2</warningLevel>
+        </ccTool>
+        <linkerTool>
+          <output>../../Dist/${CND_CONF}/lib/libTIesrEngineSI.so.1</output>
+          <linkerDynSerch>
+            <pElem>${CND_BASEDIR}/../../Dist/${CND_CONF}/lib</pElem>
+          </linkerDynSerch>
+          <linkerLibItems>
+            <linkerLibProjectItem>
+              <makeArtifact PL="../TIesrEngineCoreso"
+                            CT="2"
+                            CN="LinuxDebugGnu"
+                            AC="true"
+                            BL="true"
+                            WD="../TIesrEngineCoreso"
+                            BC="${MAKE}  -f Makefile CONF=LinuxDebugGnu"
+                            CC="${MAKE}  -f Makefile CONF=LinuxDebugGnu clean"
+                            OP="../../Dist/LinuxDebugGnu/lib/libTIesrEngineCore.so.1">
+              </makeArtifact>
+            </linkerLibProjectItem>
+          </linkerLibItems>
+          <commandLine>-Wl,-znow,-zdefs -Wl,-h,libTIesrEngineSI.so.1 -Wl,--version-script=../resource/TIesrEngineSI.ver</commandLine>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="LinuxReleaseGnu" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU_current|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+          <commandLine>-v</commandLine>
+          <warningLevel>2</warningLevel>
+        </ccTool>
+        <linkerTool>
+          <output>../../Dist/${CND_CONF}/lib/libTIesrEngineSI.so.1</output>
+          <linkerDynSerch>
+            <pElem>${CND_BASEDIR}/../../Dist/${CND_CONF}/lib</pElem>
+          </linkerDynSerch>
+          <linkerLibItems>
+            <linkerLibProjectItem>
+              <makeArtifact PL="../TIesrEngineCoreso"
+                            CT="2"
+                            CN="LinuxReleaseGnu"
+                            AC="false"
+                            BL="true"
+                            WD="../TIesrEngineCoreso"
+                            BC="${MAKE}  -f Makefile CONF=LinuxReleaseGnu"
+                            CC="${MAKE}  -f Makefile CONF=LinuxReleaseGnu clean"
+                            OP="../../Dist/LinuxReleaseGnu/lib/libTIesrEngineCore.so.1">
+              </makeArtifact>
+            </linkerLibProjectItem>
+          </linkerLibItems>
+          <commandLine>-Wl,-znow,-zdefs -Wl,-h,libTIesrEngineSI.so.1 -Wl,--version-script=../resource/TIesrEngineSI.ver</commandLine>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="ArmLinuxDebugGnueabi" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>arm-none-linux-gnueabi|Unknown</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <commandLine>-v</commandLine>
+          <warningLevel>2</warningLevel>
+        </ccTool>
+        <linkerTool>
+          <output>../../Dist/${CND_CONF}/lib/libTIesrEngineSI.so.1</output>
+          <linkerDynSerch>
+            <pElem>${CND_BASEDIR}/../../Dist/${CND_CONF}/lib</pElem>
+          </linkerDynSerch>
+          <linkerLibItems>
+            <linkerLibProjectItem>
+              <makeArtifact PL="../TIesrEngineCoreso"
+                            CT="2"
+                            CN="ArmLinuxDebugGnueabi"
+                            AC="false"
+                            BL="true"
+                            WD="../TIesrEngineCoreso"
+                            BC="${MAKE}  -f Makefile CONF=ArmLinuxDebugGnueabi"
+                            CC="${MAKE}  -f Makefile CONF=ArmLinuxDebugGnueabi clean"
+                            OP="../../Dist/ArmLinuxDebugGnueabi/lib/libTIesrEngineCore.so.1">
+              </makeArtifact>
+            </linkerLibProjectItem>
+          </linkerLibItems>
+          <commandLine>-Wl,-znow,-zdefs -Wl,-h,libTIesrEngineSI.so.1 -Wl,--version-script=../resource/TIesrEngineSI.ver</commandLine>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="ArmLinuxReleaseGnueabi" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>arm-none-linux-gnueabi|Unknown</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+          <commandLine>-v</commandLine>
+          <warningLevel>2</warningLevel>
+        </ccTool>
+        <linkerTool>
+          <output>../../Dist/${CND_CONF}/lib/libTIesrEngineSI.so.1</output>
+          <linkerDynSerch>
+            <pElem>${CND_BASEDIR}/../../Dist/${CND_CONF}/lib</pElem>
+          </linkerDynSerch>
+          <linkerLibItems>
+            <linkerLibProjectItem>
+              <makeArtifact PL="../TIesrEngineCoreso"
+                            CT="2"
+                            CN="ArmLinuxReleaseGnueabi"
+                            AC="false"
+                            BL="true"
+                            WD="../TIesrEngineCoreso"
+                            BC="${MAKE}  -f Makefile CONF=ArmLinuxReleaseGnueabi"
+                            CC="${MAKE}  -f Makefile CONF=ArmLinuxReleaseGnueabi clean"
+                            OP="../../Dist/ArmLinuxReleaseGnueabi/lib/libTIesrEngineCore.so.1">
+              </makeArtifact>
+            </linkerLibProjectItem>
+          </linkerLibItems>
+          <commandLine>-Wl,-znow,-zdefs -Wl,-h,libTIesrEngineSI.so.1 -Wl,--version-script=../resource/TIesrEngineSI.ver</commandLine>
+        </linkerTool>
+      </compileType>
+    </conf>
+  </confs>
+</configurationDescriptor>

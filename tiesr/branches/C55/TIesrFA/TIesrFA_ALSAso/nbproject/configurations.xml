@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="62">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>../src/TIesrFA_ALSA.h</itemPath>
+      <itemPath>../src/TIesrFA_User.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+      <itemPath>/data/speech/release/OpenSource/TIesr/trunk/TIesrFA/resource/TIesrFAso.ver</itemPath>
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <itemPath>../src/TIesrFA_ALSA.c</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="LinuxDebugGnu" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU_current|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <commandLine>-v</commandLine>
+          <warningLevel>2</warningLevel>
+        </cTool>
+        <linkerTool>
+          <output>../../Dist/${CND_CONF}/lib/libTIesrFA_ALSA.so.1</output>
+          <linkerLibItems>
+            <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
+            <linkerLibLibItem>asound</linkerLibLibItem>
+          </linkerLibItems>
+          <commandLine>-Wl,-znow,-zdefs -Wl,-h,libTIesrFA_ALSA.so.1 -Wl,--version-script=../resource/TIesrFAso.ver</commandLine>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="LinuxReleaseGnu" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU_current|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+          <commandLine>-v</commandLine>
+          <warningLevel>2</warningLevel>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <linkerTool>
+          <output>../../Dist/${CND_CONF}/lib/libTIesrFA_ALSA.so.1</output>
+          <linkerLibItems>
+            <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
+            <linkerLibLibItem>asound</linkerLibLibItem>
+          </linkerLibItems>
+          <commandLine>-Wl,-znow,-zdefs -Wl,-h,libTIesrFA_ALSA.so.1 -Wl,--version-script=../resource/TIesrFAso.ver</commandLine>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="ArmLinuxDebugGnueabi" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>arm-none-linux-gnueabi|Unknown</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <commandLine>-v -idirafter ../../Tools/ARM/include</commandLine>
+          <warningLevel>2</warningLevel>
+        </cTool>
+        <linkerTool>
+          <output>../../Dist/${CND_CONF}/lib/libTIesrFA_ALSA.so.1</output>
+          <linkerAddLib>
+            <pElem>../../Tools/ARM/lib</pElem>
+          </linkerAddLib>
+          <linkerDynSerch>
+            <pElem>${CND_BASEDIR}/../../Tools/ARM/lib</pElem>
+          </linkerDynSerch>
+          <linkerLibItems>
+            <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
+            <linkerLibLibItem>asound</linkerLibLibItem>
+          </linkerLibItems>
+          <commandLine>-Wl,-znow,-zdefs -Wl,-h,libTIesrFA_ALSA.so.1 -Wl,--version-script=../resource/TIesrFAso.ver</commandLine>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="ArmLinuxReleaseGnueabi" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>arm-none-linux-gnueabi|Unknown</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+          <commandLine>-v -idirafter ../../Tools/ARM/include</commandLine>
+          <warningLevel>2</warningLevel>
+        </cTool>
+        <linkerTool>
+          <output>../../Dist/${CND_CONF}/lib/libTIesrFA_ALSA.so.1</output>
+          <linkerAddLib>
+            <pElem>../../Tools/ARM/lib</pElem>
+          </linkerAddLib>
+          <linkerDynSerch>
+            <pElem>${CND_BASEDIR}/../../Tools/ARM/lib</pElem>
+          </linkerDynSerch>
+          <linkerLibItems>
+            <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
+            <linkerLibLibItem>asound</linkerLibLibItem>
+          </linkerLibItems>
+          <commandLine>-Wl,-znow,-zdefs -Wl,-h,libTIesrFA_ALSA.so.1 -Wl,--version-script=../resource/TIesrFAso.ver</commandLine>
+        </linkerTool>
+      </compileType>
+    </conf>
+  </confs>
+</configurationDescriptor>

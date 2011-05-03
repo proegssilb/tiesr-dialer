@@ -1,0 +1,13 @@
+TXN_1.1 {  
+   global:
+      # TIesrFlex.o
+      __10CTIesrFlex;
+      _._10CTIesrFlex;
+      LoadLanguage__10CTIesrFlexPCcN31i;
+      ParseGrammar__10CTIesrFlexPCcUiii;
+      DownloadGrammar__10CTIesrFlex;
+      OutputGrammar__10CTIesrFlexPciii;
+
+        local: 
+                * ;
+};

@@ -1,0 +1,15 @@
+TXN_1.1 {
+        global:
+                # TIesrFlex.o
+                _ZN10CTIesrFlexC1Ev;
+                _ZN10CTIesrFlexC2Ev;
+                _ZN10CTIesrFlexD1Ev;
+                _ZN10CTIesrFlexD2Ev;
+                _ZN10CTIesrFlex12LoadLanguageEPKcS1_S1_S1_ii;
+                _ZN10CTIesrFlex12ParseGrammarEPKcjii;
+                _ZN10CTIesrFlex15DownloadGrammarEv;
+                _ZN10CTIesrFlex13OutputGrammarEPciii;
+
+        local:
+                * ;
+};

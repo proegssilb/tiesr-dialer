@@ -1,0 +1,175 @@
+TXNprivate_1.1 {
+        global:
+                # search.o
+                EM_alpha_t;
+                EM_beta;
+                EM_get_lld;
+                back_trace_beam;
+                gauss_obs_score_f;
+                search_a_frame;
+                set_search_space;
+
+                # mfcc_f.o
+                circ_idx;
+                compute_regression;
+                cos_transform;
+                dim_p2_init;
+                fft;
+                inverse_cos_transform;
+                mfcc_a_window;
+
+                # dist.o
+                log_polyfit;
+                pow_polyfit;
+                hlr_expn;
+                hlr_expn_q;
+                hlr_gauss_obs_score_f;
+                hlr_log_one;
+                hlr_logsum;
+                gauss_det_const;
+                q15_x;
+                div32_32;
+                q14_x;
+                fx_sqrt;
+
+
+                # noise_sub.o
+                ss_mfcc_a_window;
+                init_spect_sub;
+                noise_subs;
+                ss_open;
+                ss_close;
+                ss_reset;
+                ss_set_default;
+                ss_set_parm;
+
+                # pack.o
+                nbr_coding;
+                vector_packing;
+                vector_unpacking;
+
+                # uttdet.o
+                SpeechDetected;
+                SpeechEnded;
+                compute_uttdet;
+                init_uttdet;
+                set_default_uttdet;
+                set_uttdet;
+                update_level;
+
+                # load.o
+                mem_alloc;
+                free_models;
+                free_scales;
+                load_models;
+                load_n_mfcc;
+                load_scales;
+                load_mean_vec;
+                load_model_file;
+
+                # pmc_f.o
+                log_spectral_compensation;
+                pmc;
+
+                # volume.o
+                SetTIesrVolRange;
+                set_volume_flag;
+                GetTIesrVolRange;
+
+                # gmhmm_type_common.o
+                GetAnswerCount;
+                GetAnswerWord;
+                GetAnswerIndex;
+                GetNumNbests;
+                GetTIesrNBest;
+                SetTIesrNBest;
+                GetConfidenceScore;
+                GetCycleCount;
+                GetFrameCount;
+                GetTIesrPrune;
+                SetTIesrPrune;
+                GetTIesrSAD;
+                SetTIesrSAD;
+                GetTIesrTransiWeight;
+                SetTIesrTransiWeight;
+                GetTotalScore;
+                GetVolumeStatus;
+                GetTIesrGaussSel;
+                SetTIesrGaussSel;
+                OpenSearchEngine;
+                GetTIesrJAC;
+                SetTIesrJAC;
+                GetTIesrSBC;
+                SetTIesrSBC;
+                GetTIesrORM;
+                SetTIesrORM;
+                GetTIesrSS;
+                SetTIesrSS;
+                GetTIesrCM;
+                SetTIesrCM;
+                GetRealTimeGuardTh;
+                SetRealTimeGuardTh;
+                GetRealTGuard;
+                SetRealTGuard;
+
+                # obsprob.o
+                observation_likelihood;
+
+                # sbc.o
+                sbc_save;
+                sbc_rst_seg_stat;
+                sbc_free;
+                sbc_rst_SBC_stat;
+                sbc_rtn_hmm2phone;
+                sbc_re_enhance;
+                sbc_acc_cep_bias;
+                sbc_set_default_params;
+                sbc_open;
+                sbc_load;
+                sbc_enhance;
+                sbc_init_tree;
+                sbc_enhance_all_trans;
+                sbc_observation_likelihood;
+                sbc_acc_SBC;
+                sbc_update_SBC;
+                sbc_load_hmm2phone;
+                sbc_phone2terminalidx;
+                sbc_backup;
+                sbc_restore;
+
+                # rapidsearch.o
+                rj_open;
+                rj_clear_obs_scr;
+                rj_close;
+                rj_compensate;
+                rj_noise_compensation;
+                rj_init;
+                rj_gauss_obs_score_f;
+                rj_update_noise;
+                rj_set_param;
+                rj_set_ORM;
+                rj_vad_proc;
+                rj_save;
+                rj_load;
+                mlp_open;
+                mlp_init;
+                mlp_threshold;
+                mlp_update;
+                mlp_close;
+                cm_open;
+                cm_init;
+                cm_set_param;
+                cm_freeze;
+                cm_close;
+                cm_load;
+                cm_save;
+                cm_antiscr;
+                cm_acc_seg_ratio_to_antimodel;
+                cm_update_status;
+                cm_backup_adp;
+                cm_restore_adp;
+                cm_score;
+
+        local:
+                * ;
+};

@@ -1,0 +1,79 @@
+Copyright (C) 2010 Texas Instruments Incorporated -  http://www.ti.com/
+ALL RIGHTS RESERVED
+
+
+Introduction
+------------
+
+These notes cover release Beta-1.2
+
+This release contains builds that have been tested on Windows, and under Linux
+for the x86-64, the ARM running on the Beagle Board (www.beagleboard.org).
+Slightly older versions of the code have run successfully on the Logic TI Zoom
+OMAP MDP, and the Mistral TI OMAP3503 EVM, and so the present release should
+also work on those platforms. Since the TIesr code is written in C/C++, one
+should also be able to easily build it for other platforms.
+
+Changes in This Release
+-----------------------
+
+This release provides an initial version of all of the off-line tools required
+to build the data files for TIesr for a custom vocabulary or a complete
+language. Documentation can be found in the
+Documentation/TIesr_Data_Training.txt file. The release also contains an example
+of how to build the data files in TIesr_Tools/Example. A detailed file at
+TIesr_Tools/Example/ReadMe.txt gives a tutorial on using the tools to create a
+data file set.  Please note that in order to create the data files for another
+language a large dictionary and database of speech in the language must be
+available for training of the data files. These databases will not be provided
+as part of the release.
+
+Some bugs in the APIs and tools have been corrected.  The TIesrDict API and
+TIesrFlex API interfaces have been modified to include an extra parameter
+needed to turn off automatic insertion of closure models for stop consonants.
+
+In order to accommodate the TIesr tools better, the directory structure was
+altered slightly to move the tools provided originally in the TIesrSI/tools
+directory to the TIesr_Tools directory. This new directory is now the central
+location for release of TIesr off-line tools, and also contains documentation
+on how to use them and a tutorial in the Example directory.
+
+The TIesr_Tools.txt file that documents the tools that display the
+contents of the acoustic model and network files output by the TIesrFlex API
+has been renamed to TIesr_Display_Tools.txt in order to avoid confusion with
+the TIesr_Tools directory.
+
+Tasks Remaining
+---------------
+
+In this release there are still tasks remaining to be accomplished, and these
+will be addressed in subsequent releases. The following is a list of tasks
+remaining. This list is not complete or organized by priority.
+
+- This release provides the tools necessary to build data file sets so that one
+can use TIesr to recognize speech in another language, or with alternative
+English data. The provided tools enable: (1) the construction of a pronunciation
+dictionary that provides substantial coverage of the language to be recognized;
+(2) training a set of pronunciation decision trees from the dictionary; (3)
+constructing a compressed dictionary; (4) training a set of phonetic acoustic
+models and extracting the information; (5) constructing a tree that represents
+acoustic similarities of phones in a language; (6) constructing of data files
+for clustering the acoustic feature Gaussian probability density functions used
+in acoustic models. Some tools that compress the resulting data file sets into a
+much smaller footprint have not been ported to the release yet. A subsequent
+release will contain these tools.
+
+- The TIesr algorithm that returns a confidence measure is designed for larger
+vocabulary tasks, where grammars contain many words. The confidence measure
+becomes less accurate for small vocabularies. This will be addressed in a
+subsequent release.
+
+- TIesr provides many advanced setting capabilites to tune recognizer footprint
+and performance. These are not documented in this release. A subsequent release
+will document the advanced settings, and provide a technical description of the
+recognizer algorithms. It will describe formats of the binary files used by
+TIesr.
+
+- The TIesr software has been a developing code base written by several
+engineers. Much clean-up of the code and addition of comments is needed,
+especially in the lower level signal processing APIs.

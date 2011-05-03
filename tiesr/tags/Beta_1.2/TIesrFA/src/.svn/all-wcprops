@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/tiesr/!svn/ver/3/tags/Beta_1.2/TIesrFA/src
+END
+TIesrFA_User.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tiesr/!svn/ver/3/tags/Beta_1.2/TIesrFA/src/TIesrFA_User.h
+END
+TIesrFA_ALSA.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tiesr/!svn/ver/3/tags/Beta_1.2/TIesrFA/src/TIesrFA_ALSA.h
+END
+TIesrFA_WM5.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/tiesr/!svn/ver/3/tags/Beta_1.2/TIesrFA/src/TIesrFA_WM5.cpp
+END
+TIesrFA_WM5.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/tiesr/!svn/ver/3/tags/Beta_1.2/TIesrFA/src/TIesrFA_WM5.h
+END
+TIesrFA_ALSA.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tiesr/!svn/ver/3/tags/Beta_1.2/TIesrFA/src/TIesrFA_ALSA.c
+END
+TestTIesrFA.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/tiesr/!svn/ver/3/tags/Beta_1.2/TIesrFA/src/TestTIesrFA.cpp
+END

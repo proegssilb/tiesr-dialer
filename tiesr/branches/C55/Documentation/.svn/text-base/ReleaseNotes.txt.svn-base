@@ -1,0 +1,83 @@
+Document License
+
+ This work is licensed under the Creative Commons Attribution-Share Alike 3.0
+ United States License. To view a copy of this license, visit 
+ http://creativecommons.org/licenses/by-sa/3.0/us/
+ or send a letter to Creative Commons, 171 Second Street, Suite 300,
+ San Francisco, California, 94105, USA.
+
+ 
+Contributors to this document
+
+ Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com/
+
+
+Introduction
+------------
+
+These notes cover release Beta-1.3
+
+This release contains builds that have been tested on Windows, and under Linux
+for the x86-64, the ARM running on the Beagle Board (www.beagleboard.org).
+Slightly older versions of the code have run successfully on the Logic TI Zoom
+OMAP MDP, and the Mistral TI OMAP3503 EVM, and so the present release should
+also work on those platforms. Since the TIesr library code is written in C/C++,
+one should also be able to easily build it for other platforms.
+
+
+Changes in This Release
+-----------------------
+
+The licensing terms of the TIesr Embedded Speech Recognizer Software have been
+changed to use open source licensing. This is reflected in the Software Manifest
+found in the Documentation/SoftwareManifest.pdf file, as well as licensing terms
+added to files.
+
+Some bug fixes have been made in the TIesrFlex API software to support the
+specialized _SIL* models in ARM processors.
+
+Checking of semaphore operations was added in Linux/Unix versions in order
+to improve debugging.
+
+Some documentation clarifications were made.
+
+A new document was added which describes the formats of the text and binary
+files input to and output by TIesr. This file is found at
+Documentation/TIesr_Data_Contents.txt.
+
+
+
+Tasks Remaining
+---------------
+
+In this release there are still tasks remaining to be accomplished, and these
+will be addressed in subsequent releases. The following is a list of tasks
+remaining. This list is not complete or organized by priority.
+
+- This release provides the tools necessary to build data file sets so that one
+can use TIesr to recognize speech in another language, or with alternative
+English data. The provided tools enable: (1) the construction of a pronunciation
+dictionary that provides substantial coverage of the language to be recognized;
+(2) training a set of pronunciation decision trees from the dictionary; (3)
+constructing a compressed dictionary; (4) training a set of phonetic acoustic
+models and extracting the information; (5) constructing a tree that represents
+acoustic similarities of phones in a language; (6) constructing of data files
+for clustering the acoustic feature Gaussian probability density functions used
+in acoustic models; (7) compressing the data that stores HMM model transition
+probabilities. Some tools that compress the Gaussian mean vectors into a
+smaller footprint have not been ported to the release yet. A subsequent
+release will contain these tools.
+
+- The TIesr algorithm that returns a confidence measure is designed for larger
+vocabulary tasks, where grammars contain many words. The confidence measure
+becomes less accurate for small vocabularies. This will be addressed in a
+subsequent release.
+
+- TIesr provides many advanced setting capabilites to tune recognizer footprint
+and performance. These are not documented in this release. A subsequent release
+will document the advanced settings, and provide a technical description of the
+recognizer algorithms.
+
+- The TIesr software has been a developing code base written by several
+engineers. Much clean-up of the code and addition of comments is needed,
+especially in the lower level signal processing APIs.

@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/tiesr/!svn/ver/59/branches/cm_mods/TIesrDict/src
+END
+TIesrDict.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/tiesr/!svn/ver/59/branches/cm_mods/TIesrDict/src/TIesrDict.h
+END
+TIesrDict.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/tiesr/!svn/ver/59/branches/cm_mods/TIesrDict/src/TIesrDict.cpp
+END
+TIesrDictLocal.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/tiesr/!svn/ver/59/branches/cm_mods/TIesrDict/src/TIesrDictLocal.h
+END
+TestTIesrDict.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/tiesr/!svn/ver/59/branches/cm_mods/TIesrDict/src/TestTIesrDict.cpp
+END

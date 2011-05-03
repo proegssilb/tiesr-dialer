@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="62">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>../src/confidence.h</itemPath>
+      <itemPath>../src/confidence_user.h</itemPath>
+      <itemPath>../src/dist_user.h</itemPath>
+      <itemPath>../src/filename.h</itemPath>
+      <itemPath>../src/gmhmm.h</itemPath>
+      <itemPath>../src/gmhmm_type.h</itemPath>
+      <itemPath>../src/gmhmm_type_common_user.h</itemPath>
+      <itemPath>../src/hlr_status.h</itemPath>
+      <itemPath>../src/load_user.h</itemPath>
+      <itemPath>../src/mfcc_f.h</itemPath>
+      <itemPath>../src/mfcc_f_def_struct_user.h</itemPath>
+      <itemPath>../src/mfcc_f_user.h</itemPath>
+      <itemPath>../src/noise_sub.h</itemPath>
+      <itemPath>../src/noise_sub_user.h</itemPath>
+      <itemPath>../src/obsprob_user.h</itemPath>
+      <itemPath>../src/pack_user.h</itemPath>
+      <itemPath>../src/pmc_f.h</itemPath>
+      <itemPath>../src/pmc_f_user.h</itemPath>
+      <itemPath>../src/rapidsearch.h</itemPath>
+      <itemPath>../src/rapidsearch_user.h</itemPath>
+      <itemPath>../src/sbc.h</itemPath>
+      <itemPath>../src/sbc_struct_user.h</itemPath>
+      <itemPath>../src/sbc_user.h</itemPath>
+      <itemPath>../src/search_user.h</itemPath>
+      <itemPath>../src/status.h</itemPath>
+      <itemPath>../src/tiesr_config.h</itemPath>
+      <itemPath>../src/tiesrcommonmacros.h</itemPath>
+      <itemPath>../src/uttdet.h</itemPath>
+      <itemPath>../src/uttdet_user.h</itemPath>
+      <itemPath>../src/volume_user.h</itemPath>
+      <itemPath>../src/winlen.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+      <itemPath>../resource/TIesrEngineCore.ver</itemPath>
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <itemPath>../src/dist.cpp</itemPath>
+      <itemPath>../src/gmhmm_type_common.cpp</itemPath>
+      <itemPath>../src/load.cpp</itemPath>
+      <itemPath>../src/mfcc_f.cpp</itemPath>
+      <itemPath>../src/noise_sub.cpp</itemPath>
+      <itemPath>../src/obsprob.cpp</itemPath>
+      <itemPath>../src/pack.cpp</itemPath>
+      <itemPath>../src/pmc_f.cpp</itemPath>
+      <itemPath>../src/rapidsearch.cpp</itemPath>
+      <itemPath>../src/sbc.cpp</itemPath>
+      <itemPath>../src/search.cpp</itemPath>
+      <itemPath>../src/uttdet.cpp</itemPath>
+      <itemPath>../src/volume.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="WindowsDebugMinGW" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>Cygwin|Cygwin</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <commandLine>-v -mno-cygwin</commandLine>
+          <preprocessorList>
+            <Elem>TIESRENGINECOREAPI_EXPORTS</Elem>
+            <Elem>WIN32</Elem>
+          </preprocessorList>
+          <warningLevel>2</warningLevel>
+        </ccTool>
+        <linkerTool>
+          <output>../../Dist/${CND_CONF}/libTIesrEngineCore.dll</output>
+          <linkerLibItems>
+          </linkerLibItems>
+          <commandLine>-v</commandLine>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="WindowsReleaseMinGW" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>Cygwin|Cygwin</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+          <commandLine>-v -mno-cygwin</commandLine>
+          <preprocessorList>
+            <Elem>TIESRENGINECOREAPI_EXPORTS</Elem>
+            <Elem>WIN32</Elem>
+          </preprocessorList>
+          <warningLevel>2</warningLevel>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <linkerTool>
+          <output>../../Dist/${CND_CONF}/libTIesrEngineCore.dll</output>
+          <linkerLibItems>
+          </linkerLibItems>
+          <commandLine>-v</commandLine>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="LinuxDebugGnu" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU_current|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <commandLine>-v</commandLine>
+          <warningLevel>2</warningLevel>
+        </ccTool>
+        <linkerTool>
+          <output>../../Dist/${CND_CONF}/lib/libTIesrEngineCore.so.1</output>
+          <linkerLibItems>
+          </linkerLibItems>
+          <commandLine>-Wl,-znow,-zdefs -Wl,-h,libTIesrEngineCore.so.1 -Wl,--version-script=../resource/TIesrEngineCore.ver</commandLine>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="LinuxReleaseGnu" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU_current|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+          <commandLine>-v</commandLine>
+          <warningLevel>2</warningLevel>
+        </ccTool>
+        <linkerTool>
+          <output>../../Dist/${CND_CONF}/lib/libTIesrEngineCore.so.1</output>
+          <linkerLibItems>
+          </linkerLibItems>
+          <commandLine>-Wl,-znow,-zdefs -Wl,-h,libTIesrEngineCore.so.1 -Wl,--version-script=../resource/TIesrEngineCore.ver</commandLine>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="ArmLinuxDebugGnueabi" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>arm-none-linux-gnueabi|Unknown</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <commandLine>-v</commandLine>
+          <warningLevel>2</warningLevel>
+        </ccTool>
+        <linkerTool>
+          <output>../../Dist/${CND_CONF}/lib/libTIesrEngineCore.so.1</output>
+          <linkerLibItems>
+          </linkerLibItems>
+          <commandLine>-Wl,-znow,-zdefs -Wl,-h,libTIesrEngineCore.so.1 -Wl,--version-script=../resource/TIesrEngineCore.ver</commandLine>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="ArmLinuxReleaseGnueabi" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>arm-none-linux-gnueabi|Unknown</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+          <commandLine>-v</commandLine>
+          <warningLevel>2</warningLevel>
+        </ccTool>
+        <linkerTool>
+          <output>../../Dist/${CND_CONF}/lib/libTIesrEngineCore.so.1</output>
+          <linkerLibItems>
+          </linkerLibItems>
+          <commandLine>-Wl,-znow,-zdefs -Wl,-h,libTIesrEngineCore.so.1 -Wl,--version-script=../resource/TIesrEngineCore.ver</commandLine>
+        </linkerTool>
+      </compileType>
+    </conf>
+  </confs>
+</configurationDescriptor>

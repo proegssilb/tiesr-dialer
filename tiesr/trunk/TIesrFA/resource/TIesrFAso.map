@@ -1,0 +1,14 @@
+TXN_1.1 {  
+	global:
+                # TIesrFA.o
+                TIesrFA_init;
+                TIESRFA_open;
+                TIesrFA_start;
+                TIesrFA_getframe;
+                TIesrFA_stop;
+                TIesrFA_close;
+                TIesrFA_destroy;
+               
+        local: 
+                * ;
+};

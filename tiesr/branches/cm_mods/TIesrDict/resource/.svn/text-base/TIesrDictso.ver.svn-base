@@ -1,0 +1,17 @@
+TXN_1.1 {
+        global:
+                # TIesrDict.o
+                _ZN10CTIesrDictC1Ev;
+                _ZN10CTIesrDictC2Ev;
+                _ZN10CTIesrDictD2Ev;
+                _ZN10CTIesrDictD1Ev;
+                _ZN10CTIesrDict14LoadDictionaryEPKcS1_S1_i;
+                _ZN10CTIesrDict13GetPhoneCountEv;
+                _ZN10CTIesrDict12GetPhoneNameEjPc;
+                _ZN10CTIesrDict16GetNumberEntriesEPKcPj;
+                _ZN10CTIesrDict12GetPronEntryEPKcjPcS2_;
+                _ZN10CTIesrDict12GetNextEntryEPcS0_;
+                _ZN10CTIesrDict7GetPronEPKcPcS2_;
+        local:
+                * ;
+};

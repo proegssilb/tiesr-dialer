@@ -1,0 +1,929 @@
+Document License
+
+ This work is licensed under the Creative Commons Attribution-Share Alike 3.0
+ United States License. To view a copy of this license, visit 
+ http://creativecommons.org/licenses/by-sa/3.0/us/
+ or send a letter to Creative Commons, 171 Second Street, Suite 300,
+ San Francisco, California, 94105, USA.
+
+ 
+Contributors to this document
+
+ Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com/
+
+
+Introduction
+============
+
+The TIesr APIs both use and produce data files. The purpose of this document is
+to describe the contents of these binary and text data files. 
+
+Files Used by TIesrDT, TIesrDict, and TIesrFlex
+===============================================
+
+The TIesrFlex API produces output data files containing the grammar network and
+Hidden Markov Model (HMM) information used by the TIesrSI, TIesrEngineSI and
+TIesrEngineCore APIs.  In order to produce the grammar network and HMM files,
+TIesrFlex utilizes acoustic information data files and the TIesrDict API. The
+TIesrDict API in turn uses the TIesrDT API. Both TIesrDT and TIesrDict require
+their own sets of data files. 
+
+The following sections describe the data files that are prepared off-line using
+TIesr tools. These files are used by the TIesrDT, TIesrDict, and TIesrFlex APIs
+in order to produce output grammar network and HMM model files.
+
+
+TIesrDT Data Files
+==================
+
+The TIesrDT API produces the phonetic pronunciation of a word from the letters
+making up the word spelling by using decision trees. TIesrDT uses three
+text-format data files in addition to the binary decision tree data files. This
+section describes these files. The three text files are onewphone.list,
+cAttType.txt, and cAttValue.txt, and the binary decision trees are found in 
+files with the .olmdtpm extension.
+
+onewphone.list
+--------------
+The onewphone.list file contains a listing of each pseudo-phone used by TIesrDT,
+and a phonetic class attribute value associated with each pseudo-phone. The
+order of pseudo-phones in the onewphone.list file defines the pseudo-phone
+indices used in the decision tree data files. Each line of the text file
+contains the name of a pseudo-phone followed by the attribute value, separated
+by a single space. A pseudo-phone is a sequence of phones separated by "_". For
+example, the pseudo-phone "eh_k_s" may be found in English for the pronunciation
+of the letter "X" in the word X-ray. The list includes "_" which is a
+pseudo-phone that indicates no phonetic output. The attribute values describe
+the phonetic class of the phone. Currently allowable values are "VOICED",
+"UNVOICED", or "SHORT_PAUSE" which is only used by the "_" pseudo-phone.
+(Capability exists to add, delete or modify the attribute values by modifying
+the TIesrDT API code and regenerating the decision trees.)  An example
+onewphone.list file is at:
+
+Data/OffDT_GenDict_PhbVR_LE_MQ/English/onewphone.list
+
+cAttType.txt
+------------
+The cAttType.txt file lists the ordered contexts of a letter in a word used
+during creation of the pronunciation decision trees. The decision tree for the
+letter examines the contexts surrounding the letter to determine what phone
+should be mapped to the letter. This file is not used by TIesrDT, but is a
+result of training decision trees. It can be examined to ensure that the
+contexts used during decision tree training are the same as those used by
+TIesrDT. The current ordered contexts used by TIesrDT are defined within the API
+as follows:
+
+ 0) The fourth letter to the left of the letter (L4)
+ 1) The third letter to the left (L3)
+ 2) The second letter to the left  (L2)
+ 3) The letter immediately to the left (L1)
+ 4) The letter immediately to the right (R1)
+ 5) The second letter to the right (R2)
+ 6) The third letter to the right (R3)
+ 7) The fourth letter to the right (R4)
+ 8) The phonetic class of the fourth letter to the left  (C4 or P1L4)
+ 9) The phonetic class of the third letter to the left (C3 or P1L3)
+10) The phonetic class of the second letter to the left (C2 or P1L2)
+11) The phonetic class of the letter immediately to the left (C1 or P1L1)
+  
+Capability exists to add, delete or modify the letter contexts used by decision
+trees by modifying the TIesrDT API code and regenerating the decision trees,
+being careful to generate the decision trees so that the contexts (set in the
+ttp_dict_tree_data.pl tool) match those of the TIesrDT API. An example of the
+cAttType.txt file is found at:
+
+Data/OffDT_GenDict_PhbVR_LE_MQ/English/cAttType.txt
+
+cAttValue.txt
+-------------
+The cAttValue.txt file lists the context values that the contexts enumerated
+above can assume. The order of the listing defines the indices of each value
+used in the decision trees. The listing includes all letters, since the left and
+right letter context can assume any letter. It also includes the phonetic class
+attribute values, since phonetic class contexts take on one of the phonetic
+class attribute values. The file must also contain the "NO_ATTRIBUTE" value
+since there are contexts where no value exists (for example, there is no value
+for contexts of letters to the left of the first letter of a word). An example
+cAttValue.txt file is found at:
+
+Data/OffDT_GenDict_PhbVR_LE_MQ/English/cAttValue.txt
+
+TIesrDT has provision to handle the three characters "'", "-" and "." as letters
+in a special manner, and so they can be included in a word. The character "_"
+may also be used. However, it is recommended not to use these characters unless
+necessary.
+
+Decision tree files *.olmdtpm
+-----------------------------
+The binary pronunciation decision tree files used by TIesrDT have the file
+extension .olmdtpm. There will be one decision tree for each letter in the words
+of the vocabulary. A binary tree file contains a compressed representation of
+the decision tree for its letter. A decision tree can be viewed as a tree of
+nodes and branches. Each branch is labeled with a context value and leads from a
+higher level node to a lower level node. Nodes may either be a non-terminal node
+or a terminal node. A terminal node specifies a pseudo-phone (phone or phone
+sequence) output as the result of parsing the tree. A non-terminal node is
+labeled by one of the contexts, and has a branch out of the non-terminal node
+for each possible value that the context can assume. For a given letter in a
+word, the decision tree is parsed by starting at the top node, determining the
+value of the context of the node for the letter and word, and following the
+branch labeled with the value to the next node. This continues until a terminal
+node is reached. In order to efficiently encode the tree in a binary file,
+offsets are used to rapidly move from one node to another. The decision tree is
+encoded as a header, followed by the information that encodes each non-terminal
+node of the tree. Non-terminal nodes of the tree are encoded differently
+depending on whether all of the branches leaving the node end in a terminal
+node, or whether some branches leaving the node end in another non-terminal
+node. The top level non-terminal node is handled as a special case. The format
+of the binary decision tree is as follows:
+
+1. The header section contains
+   a. A 32-bit integer giving the size of the tree in bytes after the header
+   b. A byte integer giving the number of possible contexts
+   c. A byte for each possbile context giving the number of values of the
+      context used in the tree. This indicates what contexts the tree used.
+
+2A. Non-terminal nodes with branches all ending at terminal nodes
+   a. A byte 0x80 or'ed with the index of the ordered context of the node
+   b. A byte specifying the size in bytes of the encoded branch value index
+      to pseudo-phone output mapping information.
+   c. For each possible output pseudo-phone except the one that occurs most
+      often in the terminal nodes
+      1. The pseudo-phone index
+      2. The number of branch context values that result in the pseudo-phone
+         output
+      3. A run-length encoded list of the context values
+   d. The index of the pseudo-phone that occurs most often in the terminal nodes
+
+2B. Non-terminal nodes with some branches ending at other non-terminal nodes
+   a. A byte 0xc0 or'ed with the number of bytes following that encode the
+      branch context values for branches ending at non-terminal nodes
+   b. A run-length encoded list of the context values
+   c. A byte indicating the number of context values encoded
+   d. For each of the context values encoded, two bytes containing
+      1. The ordered context index of the ending non-terminal node in the top
+         nibble of the first byte
+      2. The size of the tree at and below the ending non-terminal node in the
+         lower nibble of the first byte and the second byte
+   e. The encoded branches ending in terminal nodes and the output pseudo-phones
+      1. A byte specifying the size in bytes of the encoded branch value index
+         to pseudo-phone output mapping information.
+      2. For each possible output pseudo-phone except the one that occurs
+         most often in the terminal nodes
+         a. The pseudo-phone index
+         b. The number of branch context values that result in the pseudo-phone
+            output
+         c. A run-length encoded list of the context values
+      3. The index of the pseudo-phone that occurs most often in the terminal
+         nodes
+
+The top-level non-terminal node of the decision tree is a special case, and is
+encoded differently depending on whether some of the branches end in
+non-terminal nodes, whether all branches end in terminal nodes, or whether all
+branches end in terminal nodes that output the same pseudo-phone. The coding for
+the top-level node is as follows:
+
+3A. Top level non-terminal node with all branches ending at terminal nodes that
+    output the same pseudo-phone
+   a. Two bytes as in 2B.d, consisting of 0xf0 and 0x00 indicating no context
+      index and no size information for the top level non-terminal node
+   b. A byte as in 2A.b, consisting of 0x02, indicating only one pseudo-phone
+   c. A byte as in 2A.d, which is the index of the pseudo-phone to output
+
+3B. Top level non-terminal node with all branches ending at terminal nodes
+   a. Two bytes as in 2B.d containing
+      1. The ordered context index of the top-level non-terminal node in the top
+         nibble of the first byte
+      2. Zeros in the lower nibble of the first byte and in the second byte
+         indicating a top level node.
+   b. Encoded pseudo-phone outputs for each branch as in 2A.
+   
+3C. Top level non-terminal node with some branches ending at non-terminal nodes
+   a. Two bytes as in 2B.d containing
+      1. The ordered context index of the top-level non-terminal node in the top
+         nibble of the first byte
+      2. Zeros in the lower nibble of the first byte and in the second byte
+         indicating a top level node.
+   b. Encoded non-terminal node information as in 2B.
+
+
+The byte run-length encoding of indices in 2A.c.3 and 2B.e.2.c is implemented
+by or'ing the last index in a sequential list of indices with 0x80, and omitting
+all prior sequential indices except the first. For example, encoding the
+sequence of indices ( 0x03, 0x0a, 0x0b, 0x0c 0x0d, 0x10 ), would result in the
+encoded set (0x03, 0x0a, 0x8d, 0x10).
+
+
+TIesrDict Data Files
+====================
+The TIesrDict API looks up the phonetic pronunciation of a word in a binary
+dictionary file.  When a word is not present in the dictionary, it outputs the
+pronunciation provided by TIesrDT. In order to minimize the size of the
+dictionary file, the phonetic pronunciation for a word is encoded by only
+storing the difference in pronunciation generated by TIesrDT and the desired
+pronunciation specified in the originally supplied phonetic pronunciation
+dictionary. Additional compression is obtained by encoding the leading common
+prefix of adjacent words in the dictionary, so that the prefix does not have to
+be repeated for each word; for example the prefix "pre". In the same manner,
+common leading differences found in adjacent words are also encoded.
+
+The TIesrDict API utilizes one text data file and the binary encoded dictionary
+file. The text file is phone.lis, and the data file is dict.bin.
+
+phone.lis
+-------------
+The phone.lis text file is a listing of the monophones used in the recognizer,
+one per line. The order of the listing establishes the indices of monophones
+used throughout the TIesr APIs. The monophones in this list must be compatible
+with the phones used to define the pseudo-phones in the onewphone.list file for
+the pronunciation decision tree. An example of the phone.lis file can be found
+at:
+
+Data/OffDT_GenDict_PhbVR_LE_MQ/English/Dict/phone.lis
+
+dict.bin
+--------
+The dict.bin file contains the results of compressing an original dictionary
+into a smaller binary file. The word entries in the original pronunciation
+dictionary should be in alphabetical order, and  words having multiple
+pronunciations should be ordered from most likely to least likely pronunciation.
+The dict.bin file will follow the order of the original dictionary. The
+dict.bin file is encoded as a sequence of bytes for each word entry. The
+dictionary uses only ASCII characters with values < 0x80. Thus, characters
+in words must not use any extended ASCII characters. The encoding is
+described below.
+
+1. Each word entry begins with the byte 0xff
+
+2. The word spelling, encoded as either:
+   a. All character bytes in the word
+   b. The encoded character bytes in the word, consisting of:
+      1. A negative signed byte indicating the number of prefix characters
+         of the current word that match the previous word
+      2. The remaining characters in the word
+
+3. The encoded difference in phonetic pronunciation between that provided by
+   TIesr and the supplied dictionary pronunciation. This may be encoded either
+   as:
+   a. All differences in pronunciation encoded as:
+      1. 0x80 or'ed with the number of characters following that specify
+         differences
+      2. The characters specifying the differences
+   b. An encoding of the portion of the differences that do not match the
+      ending portion of differences of the prior word, consisting of:
+      1. 0x80 or'ed with the number of characters following that specify
+         differences plus the number that match the prior word difference
+         encoding
+      2. A byte indicating the number of characters of this difference encoding
+         that match the prior word beginning encoding. This byte will always
+         have zeros in the two most significant bits.
+      3. The remaining characters specifying the differences
+
+
+Word differences are encoded by the sequence of substitutions, deletions, and
+insertions that results in the most compact encoding.
+
+A substitution occurs when the supplied dictionary uses a different phone index
+k, at position i instead of the phone specified by TIesrDT. It is encoded as
+two bytes, 0x40 or'ed with the position i, followed by the phone index k.
+
+A deletion occurs when the TIesrDT pronunication is missing phone index k at
+position i. It is encoded as two bytes, 0x80 or'ed with the position i,
+followed by the phone index k. 
+
+An insertion occurs when the TIesrDT pronunication contains a phone at position
+i that does not occur in the supplied dictionary. It is encoded as a single
+byte 0xc0 or'ed with the position i.
+
+An example of the dict.bin file can be found at:
+
+Data/OffDT_GenDict_PhbVR_LE_MQ/English/Dict/dict.bin
+
+
+TIesrFlex Data Files
+====================
+
+The TIesrFlex API produces the grammar network and HMM acoustic models needed to
+perform recognition of a grammar specified by the user. In order to build the
+acoustic models, the TIesrFlex API utilizes acoustic phonetic information
+located in binary input data files. An example of the files is given in the
+directory 
+
+Data/OffDT_GenDict_PhbVR_LE_MQ/English/Models
+
+The data files include a set of acoustic data files named fx*, and a set of
+acoustic decision tree files, _qs* and _tree*, which contain information that
+TIesrFlex uses to generate HMM acoustic models dynamically based on the grammar
+the user inputs to TIesrFlex. The data files also include the monophone.list
+file that should agree with the phone.lis file of the TIesrDict API. Two files,
+ROM2cls.bin and cls_centr.bin, contain clustering information for individual
+Gaussian pdf components.
+
+Several options are available for creating the acoustic data files and acoustic
+decision tree data files. fxconfig.bin is a binary file that specifies the
+configuration of the data files based on how the files were created.
+fxconfig.bin consists of 32-bit integers that represent integer values or flags.
+The contents of the integers in fxconfig.bin specify:
+
+1. The number of components in acoustic feature vectors
+2. The number of components in the static part of the acoustic feature vectors
+3. A flag set to non-zero if HMM Gaussian mean vector components are stored as
+   bytes, otherwise components are stored as two byte integers
+4. A flag set to non-zero if HMM Gaussian variance vector components are stored
+   as bytes, otherwise components are stored as two byte integers.
+5. A flag set to non-zero if mean vectors were normalized by CMN during training
+6. A flag set to non-zero if data is in little-endian format
+7. The number of model sets (genders) in the HMM information
+8. A flag set to non-zero if HMM transition data is model set (gender) dependent
+9. A flag set to non-zero if decision tree data is model set (gender) dependent
+10. A flag set to (0,1) specifying the type of Gaussian mixture weight
+    compression
+11. A flag set non-zero if mixture weight compression is byte-packed 
+
+The meaning of these configuration parameters will become clear in the
+definitions of the data file formats that follow.
+
+The fxtran.cb and fxtran.off files specify the HMM transition matrices as a set
+of transition codebook entries. HMMs in TIesr consist of a set of emitting
+states, with one final non-emitting state. Entry into an HMM must be into an
+emitting state. Exit from the HMM is from the final non-emitting state. The
+entries are either in little-endian or big-endian, as specified in the
+fxconfig.bin file. The fxtran.cb file contains a set of HMM transition matrices
+and is organized as:
+
+1. A 32-bit integer specifying the number of 16-bit elements in the file
+2. For each transition matrix
+   a. A 16-bit integer specifying the number of HMM states, including
+      the non-emitting state
+   b. A 16-bit integer for each emitting state specifying the log entry
+      probability in Q6 format ordered by state.
+   c. 16-bit integers specifying the log transition probabilities from each
+      emitting state to all other states in Q6 format ordered by start state
+      first, that is a matrix p(start state, end state)
+
+The fxtran.off file is organized as:
+1. A 32-bit integer specifying the number of transition matrices in fxtran.cb
+2. For each matrix, a 32-bit offset in number of 16-bit integers to the
+   transition matrix in fxtran.cb.
+
+The fxclust.cb and fxclust.off files contain the information about the mixture
+Gaussian probability density functions used in the HMMs. The fxclust.cb file
+contains information for each Gaussian mixture pdf. A Gaussian mixture pdf is
+defined by the number of Gaussian components in the mixture, and the weight
+values, mean vector indices, and variance vector indices for each of the
+components. The fxclust.cb file depends on the settings in fxconfig.bin, since
+the weight values can be explicitly defined for each component of each mixture,
+or the weights may be compressed by performing vector quantization and only a
+weight vector index may correspond to a Gaussian mixture pdf. The fxclust.cb
+file contains:
+
+1. A 32-bit integer specifying the number of 16-bit elements in the file
+2. For each Gaussian mixture pdf (cluster):
+   a. If weights are not compressed
+      1. The number of Gaussian components in the mixture pdf in 16 bits
+      2. For each component of the pdf ordered from lower to higher weight:
+         a. The weight of the component in 16 bits
+         b. The mean index of the Gaussian component in 16 bits
+         c. The variance index of the Gaussian component in 16 bits
+   b. If weights are compressed by vector quantization but not byte-packed:
+      1. The number of Gaussian components in the mixture pdf in 16 bits
+      2. The weight vector index in 16 bits
+      3. For each component of the pdf ordered from lower to higher weight:
+         a. The mean index of the Gaussian component in 16 bits
+         b. The variance index of the Gaussian component in 16 bits
+   c. If weights are compressed by vector quantization and byte-packed:
+      1. A 16-bit value containing the number of Gaussian components in the
+         least-significant byte and the weight vector index in the
+         most-signifcant byte.
+      2. For each component of the pdf ordered from lower to higher weight:
+         a. The mean index of the Gaussian component in 16 bits
+         b. The variance index of the Gaussian component in 16 bits
+
+The fxclust.off file contains a single 32-bit number which is the total number
+of Gaussian mixture pdf's represented in the fxclust.cb file.
+
+If the weight values of each Gaussian mixture component are compressed by vector
+quantization, then the fxweight.cb file will be present. This file contains the
+vector quantized weight vectors used by the Gaussian mixture pdfs. Since it is
+possible to have mixture pdfs with differing numbers of Gaussian components, the
+fxweight.cb file will need to contain sets of vectors of differing dimensions.
+In order to make encoding the vectors in the file easy, vectors of smaller
+dimension will be padded with zeros so that all vectors in the file are the same
+dimension. The fxweight.cb file contains:
+
+1. A 32 bit integer specifying the number of 16 bit elements in the file.
+2. A 16-bit integer specifying the dimension of each vector in the file.
+3. For each weight vector in the file, a 16-bit integer for each vector element
+   specifying the log probability in  Q6 format, ordered from smallest to
+   largest probability in the vector.
+
+The Gaussian components making up the Gaussian mixture pdfs are specified by the
+three files fxmean.cb, fxvar.cb and fxgconst.cb. The fxmean.cb file contains the
+mean vectors used to define Gaussian components. The mean vectors will all have
+the dimension as specified in the fxconfig.bin file. All elements of the vectors
+will be either 16 bit integers or signed bytes, as specified by the byte means
+flag in the fxconfig.bin file. For 16 bit integer representation, the elements
+of the vector are scaled and represented as Q11 values. For byte representation,
+further scaling takes place based on the dynamic range of the elements, and this
+is included in a scale.bin file. The fxmean.cb file contains:
+
+1. A 32-bit integer specifying the number of mean vectors in the file.
+2. For each mean vector, either
+   a. A 16-bit signed integer for each element of the vector, or
+   b. A signed byte integer for each element of the vector
+   
+The fxvar.cb file contains the elements specifying variance vectors used to
+define Gaussian components. The vector elements are actually stored as inverse
+variances, which removes the necessity to perform division when calculating a
+Gaussian likelihood. The vectors will all have the dimension as specified in the
+fxconfig.bin file. All elements of the vector will be either 16 bit integers or
+signed bytes, as specified by the byte variances flag in the fxconfig.bin file.
+For 16 bit integer representation, the elements of the vector are scaled and
+represented as Q9 values. For byte representation, further scaling takes place
+based on the dynamic range of the elements, and this is included in a scale.bin
+file. The fxvar.cb file contains:
+
+1. A 32-bit integer specifying the number of vectors in the file
+2. For each vector, either
+   a. A 16-bit signed integer for each element of the vector, or
+   b. A signed byte integer for each element of the vector
+ 
+Gaussian probability calculations require multiplication of the exponential by a
+normalizing constant. In order to reduce calculation of the normalizing constant
+for each Gaussian component, the normalizing constants are pre-calculated and
+stored in the fxgconst.cb file in Q6 format. The constants are stored as 16 bit
+integers, and there will be the same number of constants as there are variance
+vectors. The fxgconst.cb file contains:
+
+1. A 32-bit integer specifying the number of constants in the file
+2. The 16-bit constant values
+
+
+If either means or variances are stored as bytes, then a scale.bin file will
+exist which specifies the scaling to apply to convert the byte values to
+properly scaled 16-bit values. Two scaling vectors are in the scale.bin file,
+one for the means and one for the inverse variances. If the means or the
+inverse variances are not stored as bytes, then the corresponding vector in the
+scale.bin file will be set to all zeros. The number of elements for each vector
+in the scale.bin file will be the same as the dimension of the mean and inverse
+variance vectors. The scale.bin file contains:
+
+1. A 16-bit integer vector of scaling parameters for Gaussian mean vectors
+2. A 16-bit integer vector of scaling parameters for Gaussian inverse variance
+   vectors
+   
+The fxsil.hmm file contains information that defines the unique silence
+model. It contains:
+
+1. A 16-bit integer number of states in the model including the final
+   non-emitting state.
+2. The 16-bit integer cluster pdf indices for each emitting state
+3. The 16-bit integer index to HMM transition information.
+
+
+The _qs* and _tree* files contain the acoustic decision tree information. This
+is used to select the Gaussian mixture pdfs for dynamic construction of the
+acoustic triphone Hidden Markov Models needed to model the words in the
+grammar. The _qs* files contain the data about context questions used to
+determine phonetic context. Each question consists of a set of left or right
+phone contexts. That is, it asks, "Is the left/right context of the current
+phone in the word one of the following phones?" The _qs.bin file contains the
+context phones for each question. The format of the _qs.bin file is:
+
+1. A 32-bit integer specifying the number of bytes holding context information
+2. For each question:
+   a. A byte containing the number of phone contexts in the question
+   b. Byte values for each phone context of the question containing:
+      1. The phone index or'ed with 0x00 if left context
+      2. The phone index or'ed with 0x80 if right context
+
+Phone indices are given by the order of the phones in the monophone.list file,
+and are zero based.
+
+The _qstbl.bin file contains indices that allow quick lookup of question
+contexts in the _qs.bin file.  The format of the _qstbl.bin file is:
+
+1. A 32-bit integer containing the number of questions in _qs.bin
+2. For each question the offset as a 32-bit integer from the beginning of byte
+   data in _qs.bin where the question context definition starts.
+   
+The _tree* files contain the binary decision trees that are used to determine
+the Gaussian mixture pdfs that correspond to a each emitting state of a triphone
+Hidden Markov Model. The tree consists of question index nodes that
+contain the index of a question in the _qs.bin file, and terminal cluster pdf
+index nodes that contain the index of a cluster pdf in fxclust.cb. All indices
+are in the range of 0 to 32767. Terminal cluster pdf index nodes are encoded by
+or'ing the index with 0x8000. Nodes for a tree are put in the _tree.bin file in
+an ordered manner so that the tree structure is implicitly encoded in the node
+list. Output is done by recursively following the "yes" branch of each question
+node until a terminal cluster pdf index node is found, then following the "no"
+branch of the prior level question node not yet encoded, again following
+the "yes" branches first. The _tree.bin  file format is:
+
+1. A 32-bit integer containing the size of data in the file in bytes.
+2. For each tree, a set of ordered 16-bit values indicating question node
+   indices (MSB=0) or terminal cluster pdf indices (MSB = 1).
+
+The _treetbl.bin file contains a table for finding the tree associated with each
+monophone, state, and possibly model set (gender) in the _tree.bin file.  The
+_treetbl.bin file format is:
+
+1. A 32-bit integer defining the number of bytes in the file
+2. For each monphone, and possibly each model set (gender), in monophone
+   order with model sets (genders) enumerated in alphabetical order by model
+   set (gender) tag, a 32-bit int value representing a 32-bit value offset in
+   this _treetbl.bin file to locate tree information for each phone and model
+   set (gender). 
+3. For each phone and possibly model set (gender), the tree information data
+   consisting of, 
+   a. A 32-bit int containing the number of emitting states in the phone
+   b. For each emitting state, a 32-bit value representing the offset in 16-bit
+      integer to the tree information assocated with each state of this
+      phone and possibly model set (gender) in _tree.bin.
+
+To improve efficiency during speech recognition, TIesr uses information that
+indicates which Gaussian pdfs are close to each other. This information is
+supplied to TIesrFlex in the ROM2cls.bin and cls_centr.bin files.
+
+The ROM2cls.bin file contains:
+1. The original number of Gaussian pdfs in 16-bit integer
+2. The number of clusters in 16-bit integer
+3. For each of the Gaussian pdfs, the cluster index corresponding to that pdf
+   in 16-bit integer format.
+
+
+The cls_centr.bin file contains:
+
+1. The number of clusters in 16-bit integer
+2. The dimension of the Gaussian feature vectors
+3. For each cluster centroid, the centroid mean vector elements in 16-bit
+   integer in Q11 format.
+   
+   
+Files Produced by TIesrFlex
+===========================
+
+The following sections describe the contents and  formats of files produced by
+the TIesrFlex API. The TIesrFlex API outputs a set of files that represents the
+grammar network and the Hidden Markov Models used during speech recognition. The
+TIesrSI recognizer API uses this set of files during recognition.  TIesr tools
+tiesr_net_convert.pl and tiesr_model_convert.pl can display the contents of
+the files created by TIesrFlex. The application can specify the directory
+where TIesrFlex writes the files.
+
+Hidden Markov Model data files
+------------------------------
+Several files define the set of Hidden Markov Models used in the grammar
+network. Together they are used by TIesr during recognition to determine the
+likelihood of HMM models given input vectors of speech data.
+
+The dim.bin file contains the number of static mfcc feature vector components as
+a 16-bit integer.
+
+The config.bin file contains 16-bit flags that define the format of output
+model file data. The flags are
+
+1. Byte mean. Set to non-zero if mu.bin file contains mean data in signed bytes.
+2. Byte var. Set to non-zero if var.bin file contains inverse variance data in
+   signed bytes.
+3. Little endian. Set to non-zer if 16-bit integer data is little endian.
+
+The mu.bin file contains the Gaussian mean vectors used in the Gaussian pdfs of
+the HMMs required for the grammar. The mean vector elements may be stored as
+16-bit integers or as signed bytes. The format of the mu.bin file is:
+
+1. A 16-bit integer specifying the number of mean vectors in the file.
+2. For each mean vector, either
+   a. 16-bit integers specifying each element of the vector in Q11 format, or
+   b. Signed bytes of scaled data for each element of the vector. Byte elements
+      will be output with static and dynamic mfcc elements interlaced. For
+      example mfcc(0), delta_mfcc(0), mfcc(1), delta_mfcc(1), etc.
+
+The var.bin file contains the inverse variance vector elements of the Gaussian
+pdfs of the HMMs required for the grammar. The inverse vector elements may be
+stored as 16-bit integers or as signed bytes. The format of the var.bin file is:
+
+1. A 16-bit integer specifying the number of vectors in the file.
+2. For each vector, either
+   a. 16-bit integers specifying each element of the vector in Q9 format, or
+   b. Signed bytes of scaled data for each element of the vector. Byte elements
+      will be output with static and dynamic mfcc elements interlaced as in the
+      mu.bin file.
+
+The gconst.bin file contains the Gaussian pdf normalization constants for each
+pdf. The format of the gconst.bin file is:
+
+1. A 16-bit integer specifying the number of constants in the file.
+2. The constants stored in 16-bit integers
+
+If either mu.bin or var.bin is output in byte format, then the scale.bin file
+will be output. The format of the scale.bin file is:
+
+1. For each mean vector dimension, the number of left shifts performed to
+   maximize the most significant byte prior to truncation to byte. These values
+   will be zero if mu.bin is not in byte format.
+2. For each inverse variance vector dimension, the number of left shifts
+   performed to maximize the most significant byte prior to truncation to byte.
+   These values will be zero if var.bin is not in byte format.
+
+The mixture.bin file defines the Gaussian mixture pdfs used in the HMMs. The
+format of the file is:
+
+1. A 16-bit integer defining the number of 16-bit entries in the file
+describing the mixture components.
+2. For each Gaussian mixture pdf
+   a. A 16-bit integer defining the number of Gaussian pdfs in the mixture pdf
+   b. For each Gaussian pdf in the mixture pdf
+      1. A 16-bit integer weight in log Q6 format
+      2. A 16-bit integer mean vector index
+      3. A 16-bit integer inverse variance vector index
+
+The pdf.bin file contains offset indices in the mixture.bin data for quick
+access to mixture pdf information. The format of the pdf.bin file is:
+
+1. A 16-bit integer specifying the number of mixture pdfs.
+2. For each pdf, the offset in the mixture.bin data to the mixture pdf data as
+   a 16-bit unsigned integer. 
+
+The tran.bin file specifies the transition information between states in an HMM.
+The format of the tran.bin file is:
+
+1. A 16-bit integer giving the number of 16-bit data elements in the file.
+2. For each transition matrix:
+   a. A 16-bit integer defining the number of states in the HMM, including the
+      final non-emitting state.
+   b. A set of 16-bit integer entries defining the log entry probabilities into
+      each of the emitting states
+   c. A matrix of 16-bit integer entries defining the log transition
+      probabilities from emitting states to all states. This matrix will be of
+      dimension (number of emitting states) x (number of states)
+
+
+The hmm.bin file contains the information to tie the transition information and
+Gaussian mixture pdf information together to form the set of HMMs use for
+recognition. The format of the hmm.bin file is:
+
+1. a 16-bit integer containing the number of 16-bit data elements in the file.
+2. For each HMM created including the model set (gender), a 16-bit integer
+   offset specifying the offset in 16-bit elements in this hmm.bin data to the
+   HMM information. The model sets must have one-to-one correspondence since
+   TIesr requires identical context model sets. The first HMM in each set will
+   be the silence model, which is the identical model for all model sets.
+3. For each HMM created, including the model set (gender):
+   a. A 16-bit integer offset in the tran.bin data to transition information for
+      the HMM
+   b. For each emitting state, the Gaussian mixture pdf index as an unsigned
+      16-bit integer
+
+The hmm2phone.bin file provides a mapping from each HMM created to the center
+phone index of the HMM. The mapping does not need to consider the model sets
+(genders) since the HMMs for each model set have identical context, and hence
+identical center phones. The format of the hmm2phone.bin file is:
+
+1. A unique index indicating the unique silence model.
+2. For each HMM model created, ignoring model set (gender), the index of the
+   center phone of the HMM as a 16-bit integer. Indices are determined according
+   to the monophone.list file described in the TIesrFlex data file section.
+
+The o2amidx.bin and vqcentr.bin files provide information about clustering of
+the Gaussian pdfs for each Gaussian pdf used in the grammar. The format of the
+o2amidx.bin file is:
+
+1. The number of Gaussian pdf mean vectors in mu.bin as a 16-bit integer
+2. The cluster class index of each of the mean vectors as an unsigned byte,
+   according to the classes defined in the ROM2cls.bin file described above.
+   
+The vqcentr.bin file provides a listing of all of the Gaussian pdf cluster
+mean vector centroids. This includes all centroids, even if no
+Gaussian pdfs required by the grammar map to a particular cluster index. This
+is in essence the same information as in the cls_centr.bin file input to
+TIesrFlex as described above. The format of the vqcentr.bin file is:
+
+1. The total number of cluster classes as a 16-bit integer
+2. The dimension of the mean vector as a 16-bit integer
+3. For each class, the class Gaussian mean centroid vector as a set of 16-bit
+   integer elements in Q11 format.
+
+
+Word and grammar network files
+------------------------------
+Two files, word.lis and net.bin, output by TIesrFlex define the grammar network
+and words that will be recognized.
+
+The word.lis file is a text file that lists each word in the recognition
+vocabulary, one word per line. Note that the unique silence model is the first
+listed word as "_SIL", and the special silence models "_SIL_*" are also listed.
+Words with multiple pronunciations are listed with an appended "+n", where n is
+an integer indicating the additional multiple pronunciations. For example, if
+the word "allied" has two pronunciations, the first will be listed as "allied"
+and the second as "allied+1".
+
+The net.bin file defines the structure of the finite state grammar network that
+TIesr uses during recognition. This is a fairly complex structure that includes
+information regarding network topology as a set of symbols (nodes) and
+connections, HMMs corresponding to the symbols, and word outputs corresponding
+to word-output symbols of the network. The format of the file is:
+
+1. A 16-bit integer containing the number of 16-bit data elements in the file.
+2. A 16-bit integer defining the total number of HMMs used in the network,
+   including model sets (genders). 
+3. A 16-bit integer containing the number of symbols in the network
+4. A 16-bit integer containing the number of words in the network
+5. A 16-bit integer containing the number of model sets (genders)
+6. A 16-bit integer containing the number of HMMs in each model set
+7. A 16-bit integer offset relative to data in this file indicating the
+   beginning of start-symbol information.
+8. A 16-bit integer offset relative to data in this file indicating the
+   beginning of stop-symbol information
+9. For each symbol in the network, a 16-bit integer offset relative to data
+   in this file to symbol information.
+10. The start symbol information, containing:
+    a. A 16-bit integer dummy value (set to 0 )
+    b. A 16-bit integer containing the number of start symbols in the network
+    c. For each start symbol, the symbol index (code) of the start symbol
+11. The stop symbol information, containing
+    a. A 16-bit integer dummy value (set to 0 )
+    b. A 16-bit integer containing the number of stop symbols in the network
+    c. For each stop symbol, the symbol index (code) of the stop symbol
+12. For each symbol of the network
+    a. A 16-bit integer giving the HMM index corresponding to the symbol. The
+       HMM index is not model set (gender) dependent. 
+    b. A 16-bit integer giving the number of transitions from this symbol to 
+       other symbols. If a word output is tied to this symbol, then or the
+       16-bit integer with 0x8000.
+    c. For each symbol to which this symbol transitions, a 16-bit integer giving
+       the symbol index of the destination symbol.
+    d. If in (b) above a word output is tied to this symbol, a 16-bit integer
+       giving the word index according to the word.lis file.
+
+
+
+Files used by TIesrSI
+=====================
+
+During speech recognition itself, the TIesrSI API uses the grammar and HMM files
+produced by TIesrFlex. The application inputs the location of the files when
+creating a TIesr instance.
+
+In addition to the files created by TIesrFlex, TIesrSI utilizes one other file,
+hlrtree.bin, which specifies a clustering binary tree of phones. The
+phones include first the special _SIL phone, followed by all of the phones
+listed in the monophone.list file mentioned above. The hlrtree.bin file is
+used for dynamically creating adaptation data specific to each phone. Initially,
+when very little speech data has been observed, the adaptation data will only be
+determined for higher levels of phone classes in the tree. As more speech data
+is observed, the adaptation parameters will be determined for smaller groups of
+phone classes at lower levels in the tree, until finally adaptation data may be
+specific to a particular phone. Nodes in the binary tree are numbered from left
+to right and from lower to higher levels in the tree, and numbers are zero
+based. The hlrtree.bin file is created by supplied TIesr tools as part of model
+training. An example hlrtree.bin file can be found at:
+
+Data/OffDT_GenDict_PhbVR_LE_MQ/English/hlrtree.bin
+
+The file contents are:
+
+1. A 16-bit integer containing the number of terminal nodes in the binary tree.
+2. 16-bit integers giving the parent node indices of each terminal node in the
+   tree.
+3. 16-bit integers giving the parent node of each of the non-terminal nodes in
+   the tree in the order of non-terminal nodes.
+4. A 16-bit integer giving the number of phones, including the _SIL phone.
+5. 16-bit integers giving the terminal node index corresponding to each phone
+   starting with the _SIL phone and then the phones in the order given by the
+   monophone.list file 
+   
+
+
+Files output by TIesrSI
+=======================
+
+After recognition of an utterance, TIesrSI outputs an updated binary file that
+contains the current estimates of various channel and model adaptation
+parameters. The file name and location of the adaptation file is determined by
+the application designer. The contents of the file will be dependent on the
+particular configuration of the recognizer that has been built, which determines
+which processing features are active. This section describes the output format
+of this binary file. The file is typically referred to as the "JAC" file. A
+TIesr tool, tiesr_jac_convert.pl, can be used to output the contents of this
+file. However, advanced understanding of the TIesr speech recognition processing
+methods is necessary to interpret the data. The size of each data value depends
+on the particular hardware implementation of the short and long data types. The
+contents of the file may be broken down into categories by processing
+algorithms.
+
+Basic JAC adaptation parameters
+-------------------------------
+The basic adaptation parameters are used to estimate the channel spectral bias
+compared to the HMM model spectral parameters, so that the HMM model Gaussian
+pdf mean vectors can be adapted to match the bias occuring due to the estimated
+channel. The channel bias estimate is performed sequentially for each input
+utterance recognized, requiring accumulators to hold statistics from prior
+estimates. The basic adaptation parameters are:
+
+1. The number of spectral filters used in mfcc feature construction, as a short
+2. The number of dimensions in the mfcc feature vector, including delta
+   parameters, as a short
+3. For each spectral filter, the current estimate of the log channel spectral
+   bias, as a short
+4. Long values for each accumulator needed to sequentially adapt the channel
+   estimate. There will by twice the number of accumulators as there are number
+   of spectral filters.
+
+Sequential variance adaptation (SVA)
+------------------------------------
+The basic adaptation parameters serve to adapt the Gaussian pdf mean vectors,
+but do not consider adapting the Gaussian pdf variance vectors. A second
+adaptation method sequentially estimates a global scaling of the Gaussian pdf
+variance vectors.  The estimation requires accumulators to hold statistics from
+prior estimates. The SVA adaptation parameters are:
+
+1. For each mfcc dimension, including static and dynamic, the current estimate
+   of the variance log scaling parameter in short
+2. For each scaling parameter, the accumulator value in long
+
+Weighted sequential variance adaptation (WSVA)
+----------------------------------------------
+If the WSVA method is active, then variance scaling estimates are based on the
+current estimate of noise level, and so one additional parameter is included:
+
+1. The noise level estimate in short
+
+Stochastic Bias Compensation (SBC)
+----------------------------------
+The SBC method estimates an additional bias to be added to the mfcc Gaussian pdf
+mean vectors corresponding to each HMM model phone. The biases are estimated and
+accumulated corresponding to nodes of the phonetic binary tree as defined in the
+hlrtree.bin file. This requires accumulator values and transforms as well as
+other information for each node in the tree. The data that is placed in the JAC
+file is:
+
+1. A short indicating the number of utterances processed
+2. A short containing the number of nodes in the binary tree
+3. A short containing the size of the bias vector
+4. For each of the nodes in the binary tree:
+   a. An unsigned short containing the number of input feature vectors mapped to
+      this node
+   b. A short containing data in the two bytes:
+      1. The most significant byte contains the parent node index for this node
+      2. The least significant byte contains the transform index for this node
+   c. A vector of longs of size of the bias vector containing first
+      difference accumulators
+   d. A vector of longs of size of the bias vector containing the second
+      difference accumulators
+   e. A vector of short holding the current bias vector
+5. A short containing the number of phones, including the _SIL phone
+6. For each phone starting with _SIL, and then in the order given by
+   monophone.list, the bias index corresponding to the phone.
+7. A short for each node in the tree containing the transform index for the
+   node. This is the same as 4.b.2 and exists for historical reasons.
+8. For each node, a vector of short containing the current bias. This is the
+   same as 4.e and exists for historical reasons.
+
+Online Reference Models (ORM)
+-----------------------------
+The ORM method determines a reference background acoustic signal model to be
+used in addition to the _SIL model.  The background model is defined by a set of
+indices of the VQ clustered Gaussian pdf distributions that match the backgound
+acoustic signal. The set can dynamically change based on changes detected in the
+background acoustic signal, thus maintaining a dynamic model of the background.
+The reference model can be used to improve voice activity detection, provide a
+better estimate of background acoustic likelihood, and remove frames of
+unimportant background audio from recogntion processing. Three parameters are
+maintained in order to continuously update the ORM:
+
+1. A short containing the number of cluster indices currently in the reference
+   model
+2. A vector of shorts providing the cluster indices in the reference model
+3. A vector of shorts providing the probability of occurrence of each index in
+   the reference model
+   
+
+Confidence Measure Parameters (CM)
+----------------------------------
+The CM method provides a means of estimating the confidence in a recognition
+result. The confidence is based on two measures. The first measure
+is the a posteriori probability of of the recognized phone sequence.
+The probability is modeled as two Gaussian densities, one for correct
+recognition, and one for incorrect recognition. Parameters of the two
+densities can be updated dynamically. The log likelihood ratio of the correct
+versus incorrect densities provides a measure of confidence. The second measure
+is the number of competing hypotheses at the end of recognition of the
+utterance. The CM parameters maintained to update the CM models are as follows:
+
+1. A short containing the Gaussian density mean value for correctly recognized
+   utterances
+2. A short containng the Gaussian density variance value for correctly
+   recognized utterances
+3. A short containing the Guassian density scale value for correctly recognized
+   utterances
+4. A short containing the Gaussian density mean value for incorrectly
+   recognized utterances
+5. A short containing the Gaussian density variance value for incorrectly
+   recognized utterances
+6. A short containing the Gaussian density scale value for incorrectly
+   recognized utterances
+7. A short containing a non-stationary noise measure
+8. Three shorts containing weights for logistic regression
+9. Three shorts containing parameters for adapting the logistic regression
+   weights. These are presently not used.
