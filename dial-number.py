@@ -28,9 +28,7 @@ subs = re.sub("\D", '', sys.argv[1])
 res = re.findall(regex, subs)[0]
 
 #Create a Google Voice API object, login, and dial the number.
-em = input("e-mail:")
-pwd = getpass.getpass()
 v = gv.Voice()
-v.login(email=em, passwd=pwd)
+v.login()
 v.call(res, v.phones[0])
 
