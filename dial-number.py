@@ -8,10 +8,11 @@ regular expression, and if this works, dial the number.
 
 #re for regular expressions
 #sys for accessing command-line arguments
-import re, sys
+import re, sys, getpass
 
 #And Google Voice API.
 import googlevoice as gv
+from googlevoice.util import input
 
 #Our magic regular expression
 #    (A 7, 10, or 11 digit number)
@@ -27,7 +28,9 @@ subs = re.sub("\D", '', sys.argv[1])
 res = re.findall(regex, subs)[0]
 
 #Create a Google Voice API object, login, and dial the number.
+em = input("e-mail:")
+pwd = getpass.getpass()
 v = gv.Voice()
-v.login()
-v(res)
+v.login(email=em, passwd=pwd)
+v.call(res, v.phones[0])
 
