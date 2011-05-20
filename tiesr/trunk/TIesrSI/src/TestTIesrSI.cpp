@@ -39,6 +39,10 @@
 #include <string.h>
 #include <stdio.h>
 
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
 #if defined( LINUX)
 #include <errno.h>
 
@@ -50,6 +54,9 @@
 
 // Include the app macros, constants and structures
 #include "TestTIesrSI.h"
+
+void AddToDialerBuffer( char word );
+int SendToDialer( char* buffer );
 
 /*--------------------------------*/
 int main( int argc, char** argv )
@@ -139,6 +146,11 @@ int main( int argc, char** argv )
       exit( recoError );
    }
 
+int i;
+for (i=0;i<10;i++)
+{
+printf( "Loop%d\n",i );
+
 
    /* Start TIesr recognition.  TIesrSI will start recognition in a
    new thread. */
@@ -165,7 +177,6 @@ int main( int argc, char** argv )
 #elif defined ( WIN32 )
    WaitForSingleObject( reco.start_event, INFINITE );
 #endif
-
    if( reco.speakResult != TIesrSIErrNone )
    {
       printf( "Recognizer not ready - spoke too early?\n" );
@@ -195,10 +206,13 @@ int main( int argc, char** argv )
 
 
 
+
+
    /* Stop the recognizer (this also formalizes recognition results
    // within TIesrSI ) */
-   printf( "Stopping TIesrSI recognizer\n" );
+   printf( "Stopping TIesrSI recognizer...\n" );
    recoError = StopTIesr( &reco );
+	 printf( "Stopped TIesrSI recognizer\n" );
    if( recoError != RecoErrNone )
    {
       printf( "Recognizer stop failure\n" );
@@ -221,8 +235,11 @@ int main( int argc, char** argv )
    }
    else
    {
+			printf( "Calling OutputResult\n" );
       OutputResult( reco.tiesrSI );
    }
+}
+
 
    /* Close the recognizer on this file */
    printf( "Closing TIesrSI recognizer\n" );
@@ -272,13 +289,51 @@ void OutputResult( TIesrSI_t aTIesrSI )
 
    /* Output all words of recognized answer except _SIL */
    printf( "Recognized: " );
-   for( wd = 0; wd < numWords; wd++ )
+	 for( wd = 0; wd < numWords; wd++ )
    {
+			//printf(":-)\n");
       siError = TIesrSI_word( aTIesrSI, wd, &word, 0 );
-      if( siError != TIesrSIErrNone )
+      //printf("siError: %d ", siError);
+			if( siError != TIesrSIErrNone ){
          printf( "*** " );
-      else if( strcmp( word, "_SIL" ) )
-         printf( "%s ", word );
+			}else if( strcmp( word, "_SIL" ) ){
+        printf( "%s ", word );
+				
+				if( strcmp(word, "zero") == 0 ){
+					printf("adding to dialer buffer: 0\n");
+					AddToDialerBuffer( '0' );
+				}else if( strcmp(word, "one") == 0 ){
+					printf("adding to dialer buffer: 1\n");
+					AddToDialerBuffer( '1' );
+				}else if( strcmp(word, "two") == 0 ){
+					printf("adding to dialer buffer: 2\n");
+					AddToDialerBuffer( '2' );
+				}else if( strcmp(word, "three") == 0 ){
+					printf("adding to dialer buffer: 3\n");
+					AddToDialerBuffer( '3' );
+				}else if( strcmp(word, "four") == 0 ){
+					printf("adding to dialer buffer: 4\n");
+					AddToDialerBuffer( '4' );
+				}else if( strcmp(word, "five") == 0 ){
+					printf("adding to dialer buffer: 5\n");
+					AddToDialerBuffer( '5' );
+				}else if( strcmp(word, "six") == 0 ){
+					printf("adding to dialer buffer: 6\n");
+					AddToDialerBuffer( '6' );
+				}else if( strcmp(word, "seven") == 0 ){
+					printf("adding to dialer buffer: 7\n");
+					AddToDialerBuffer( '7' );
+				}else if( strcmp(word, "eight") == 0 ){
+					printf("adding to dialer buffer: 8\n");
+					AddToDialerBuffer( '8' );
+				}else if( strcmp(word, "nine") == 0 ){
+					printf("adding to dialer buffer: 9\n");
+					AddToDialerBuffer( '9' );
+				}else{
+					printf("nothing added to dialer buffer");
+				}
+					
+			}
    }
    printf( "\n" );
 
@@ -290,6 +345,122 @@ void OutputResult( TIesrSI_t aTIesrSI )
    else
        printf( "Confidence: %d\n", confidence );
     */
+}
+
+/*----------------------------------------------------------------*
+  AddToDialerBuffer
+	
+	adds recognized strings to buffer to be sent to voice dialer.
+	dialer accepts strings of numerics with lengths of 7, 10 or 11.
+	
+  ----------------------------------------------------------------*/
+char* buffer;
+int buffer_size = 0;
+
+void AddToDialerBuffer( char number ){
+	
+	//check to see if input is a numeric
+	/*istringstream stream( word );
+	double test;
+	stream >> test;
+	if( !stream ){
+		return false;
+	}*/
+	
+	if(buffer_size > 0){
+		buffer = (char*)realloc(buffer, (++buffer_size)*sizeof(char));
+	}else{
+		buffer = (char*)malloc((++buffer_size)*sizeof(char));
+	}
+	buffer[buffer_size-1] = number;
+	buffer[buffer_size] = '\0';
+	
+	switch(buffer_size) {
+		//case 7 :
+		//case 11 :
+		case 10 :
+			printf("buffer full. dialing...\n");
+			SendToDialer( buffer );
+			//clear buffer
+			for (int i = 0; i < buffer_size; i++){
+				buffer[i] = '\0';
+			}
+			buffer_size = 0;
+		break;
+		
+		default :
+			printf("buffer size: %d buffer: %s\n", buffer_size, buffer);
+		break;
+	}
+	return;
+}
+
+/*----------------------------------------------------------------*
+  Send To Dialer
+  
+	forks the voice dialer process and loads it with numerics read
+
+  ----------------------------------------------------------------*/
+int SendToDialer( char* buffer ){
+	printf( "Dialing: %s\n", buffer );
+	
+	int i = 1;
+	int result = 0;
+	pid_t child_pid;
+	
+	char* address = "http://maxifig.reshall.rose-hulman.edu:8080/";
+	char* arg = (char*)malloc(56*sizeof(char));
+	strcpy(arg, address);
+	strcat(arg, buffer);
+	
+	char* wget = "wget";
+	char** args = (char**)malloc(56 * sizeof(char*));
+	args[0] = wget;
+	args[1] = arg;
+	printf( "forking to: %s %s\n", args[0], args[1]);
+	
+	if ((child_pid = fork()) != 0) {
+		//Parent process
+		//wait for child to complete before continuing
+		printf("parent is waiting...\n");
+		waitpid(child_pid, &result, 0);
+		printf("parent has continued...\n");
+		
+	}else{
+		//Child process
+		//fork external dialer or DIE	
+		
+		i = execv(args[0], args);
+		
+		//the external command was not found in the pwd or as an absolute path
+		//now check the path variable for these programs
+		char * path_var = (char*)malloc( sizeof(char) * strlen( getenv("PATH") ) );
+		path_var = getenv("PATH");
+		
+		
+		char * slash_cmd = (char*)malloc( (1 + strlen( args[0] ) ) * sizeof(char));
+		slash_cmd[0] = '/';
+		strcat( slash_cmd, args[0] );
+
+		char * next_path = (char*)malloc( strlen(path_var)*sizeof(char) );
+		strcpy( next_path, strtok(path_var, ":") );
+		i = execv( strcat( next_path, slash_cmd ), args );
+		
+		//first path in path variable no good... keep searching
+		while( next_path != NULL ){
+			i = execv( strcat( next_path, slash_cmd ), args );
+			strcpy( next_path, strtok(NULL, ":") );
+		}
+		
+		//code should never get here
+			printf( "error in exec: %d\n", i);
+		kill(getpid(), SIGKILL);
+		
+	}
+	
+	//parent is finished waiting
+	printf( "dialing complete.\n" );
+	return result;
 }
 
 /*----------------------------------------------------------------
@@ -477,6 +648,8 @@ RecoError_t StopTIesr( Reco_t * reco )
    int audioStatus;
    int jacStatus;
 
+	 printf( "StopTIesr entered...\n");
+	 
    if( !reco->tiesrIsOpen )
    {
       return RecoErrClosed;
